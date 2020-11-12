@@ -6,8 +6,9 @@ model<-"test.stoch"
 subset.data<-"wP"
 smooth.interval<-"two.weeks"
 
-n.initial<-2000 #number of LHS samples
-n.final<-250
+n.initial<-2500 #number of LHS samples
+n.mid<-250  #number of LHS samples
+n.final<-25 #number of LHS samples
 jobs.per.node<-25 #number of LHS samples to analyze in the same script
 
 ### set directories for current analysis ###
@@ -76,6 +77,52 @@ if(!file.exists(paste0(job.name,".compile.initial.q")))
   )
 }
 
+if(!file.exists(paste0(job.name,".mid.q")))
+{
+  writeLines(
+    c(
+      "#!/bin/bash",
+      "#",
+      "#SBATCH -o mid.pertussis.out",
+      "#SBATCH -e mid.pertussis.err",
+      paste0("#SBATCH -J ",job.name,".mid"), 
+      paste0("#SBATCH --array=1-",n.mid/jobs.per.node),
+      "#SBATCH --sockets-per-node=1",
+      "#SBATCH --cores-per-socket=5",
+      "#SBATCH -t 0-72:00:00",
+      "#SBATCH --mail-type=END",
+      "#SBATCH --mail-user=ifmiller@princeton.edu",
+      "",
+      paste0("cd ",batch.dir,"/dir.f$SLURM_ARRAY_TASK_ID"),
+      "srun R CMD BATCH parameter.sweep.mid.R"
+    ),
+    con=paste0(job.name,".mid.q")
+  )
+}
+
+if(!file.exists(paste0(job.name,".compile.mid.q")))
+{
+  writeLines(
+    c(
+      "#!/bin/bash",
+      "#",
+      "#SBATCH -o comp.mid.pertussis.out",
+      "#SBATCH -e comp.mid.pertussis.err",
+      paste0("#SBATCH -J ",job.name,".comp.mid"), 
+      "#SBATCH --array=1",
+      "#SBATCH --sockets-per-node=1",
+      "#SBATCH --cores-per-socket=1",
+      "#SBATCH -t 0-00:05:00",
+      "#SBATCH --mail-type=END",
+      "#SBATCH --mail-user=ifmiller@princeton.edu",
+      "",
+      paste0("cd ",base.dir),
+      "srun R CMD BATCH compile.mid.output.R"
+    ),
+    con=paste0(job.name,".comp.mid.q")
+  )
+}
+
 if(!file.exists(paste0(job.name,".final.q")))
 {
   writeLines(
@@ -132,6 +179,7 @@ for (i in 0:((n.initial/jobs.per.node)-1))
   setwd(code.dir)
   initial.param.sweep.lines<-readLines("parameter.sweep.initial.R")
   initial.param.sweep.lines[grep("n.initial<-",initial.param.sweep.lines)]<-paste0("n.initial<-",n.initial)
+  initial.param.sweep.lines[grep("n.mid<-",initial.param.sweep.lines)]<-paste0("n.mid<-",n.mid)
   initial.param.sweep.lines[grep("n.final<-",initial.param.sweep.lines)]<-paste0("n.final<-",n.final)
   initial.param.sweep.lines[grep("jobs.per.node<-",initial.param.sweep.lines)]<-paste0("jobs.per.node<-",jobs.per.node)
   initial.param.sweep.lines[grep("data.dir<-",initial.param.sweep.lines)]<-paste0("data.dir<-",'"',data.dir,'"')
@@ -150,11 +198,36 @@ for (i in 0:((n.initial/jobs.per.node)-1))
   writeLines(initial.param.sweep.lines,con="parameter.sweep.initial.R")
 }
 
+for (i in 0:((n.mid/jobs.per.node)-1))
+{
+  setwd(code.dir)
+  mid.param.sweep.lines<-readLines("parameter.sweep.mid.R")
+  mid.param.sweep.lines[grep("n.initial<-",mid.param.sweep.lines)]<-paste0("n.initial<-",n.initial)
+  mid.param.sweep.lines[grep("n.mid<-",mid.param.sweep.lines)]<-paste0("n.mid<-",n.mid)
+  mid.param.sweep.lines[grep("n.final<-",mid.param.sweep.lines)]<-paste0("n.final<-",n.final)
+  mid.param.sweep.lines[grep("jobs.per.node<-",mid.param.sweep.lines)]<-paste0("jobs.per.node<-",jobs.per.node)
+  mid.param.sweep.lines[grep("data.dir<-",mid.param.sweep.lines)]<-paste0("data.dir<-",'"',data.dir,'"')
+  mid.param.sweep.lines[min(grep("out.dir<-",mid.param.sweep.lines))]<-paste0("out.dir<-",'"',out.dir,'"')
+  mid.param.sweep.lines[grep("lhs.dir<-",mid.param.sweep.lines)]<-paste0("lhs.dir<-",'"',lhs.dir,'"')
+  mid.param.sweep.lines[grep("code.dir<-",mid.param.sweep.lines)]<-paste0("code.dir<-",'"',code.dir,'"')
+  mid.param.sweep.lines[grep("loc<-",mid.param.sweep.lines)]<-paste0("loc<-",'"',loc,'"')
+  mid.param.sweep.lines[grep("model<-",mid.param.sweep.lines)]<-paste0("model<-",'"',model,'"')
+  mid.param.sweep.lines[grep("subset.data<-",mid.param.sweep.lines)]<-paste0("subset.data<-",'"',subset.data,'"')
+  mid.param.sweep.lines[grep("smooth.interval<-",mid.param.sweep.lines)]<-paste0("smooth.interval<-",'"',smooth.interval,'"')
+  mid.param.sweep.lines[grep("start.job.index<-",mid.param.sweep.lines)]<-paste0("start.job.index<-",i*jobs.per.node+1)
+  
+  setwd(batch.dir)
+  if(!dir.exists(paste0("dir.m",i+1))) {dir.create(paste0("dir.m",i+1))}
+  setwd(paste0(getwd(),"/dir.m",i+1))
+  writeLines(mid.param.sweep.lines,con="parameter.sweep.mid.R")
+}
+
 for (i in 0:((n.final/jobs.per.node)-1))
 {
   setwd(code.dir)
   final.param.sweep.lines<-readLines("parameter.sweep.final.R")
   final.param.sweep.lines[grep("n.initial<-",final.param.sweep.lines)]<-paste0("n.initial<-",n.initial)
+  final.param.sweep.lines[grep("n.mid<-",final.param.sweep.lines)]<-paste0("n.mid<-",n.mid)
   final.param.sweep.lines[grep("n.final<-",final.param.sweep.lines)]<-paste0("n.final<-",n.final)
   final.param.sweep.lines[grep("jobs.per.node<-",final.param.sweep.lines)]<-paste0("jobs.per.node<-",jobs.per.node)
   final.param.sweep.lines[grep("data.dir<-",final.param.sweep.lines)]<-paste0("data.dir<-",'"',data.dir,'"')
@@ -179,6 +252,7 @@ setwd(code.dir)
 compile.initial.output.lines<-readLines("compile.initial.output.R")
 
 compile.initial.output.lines[grep("n.initial<-",compile.initial.output.lines)]<-paste0("n.initial<-",n.initial)
+compile.initial.output.lines[grep("n.mid<-",compile.initial.output.lines)]<-paste0("n.mid<-",n.mid)
 compile.initial.output.lines[grep("n.final<-",compile.initial.output.lines)]<-paste0("n.final<-",n.final)
 compile.initial.output.lines[grep("jobs.per.node<-",compile.initial.output.lines)]<-paste0("jobs.per.node<-",jobs.per.node)
 compile.initial.output.lines[grep("data.dir<-",compile.initial.output.lines)]<-paste0("data.dir<-",'"',data.dir,'"')
@@ -195,9 +269,30 @@ setwd(base.dir)
 writeLines(compile.initial.output.lines,con="compile.initial.output.R")
 
 setwd(code.dir)
+compile.mid.output.lines<-readLines("compile.mid.output.R")
+
+compile.mid.output.lines[grep("n.initial<-",compile.mid.output.lines)]<-paste0("n.initial<-",n.initial)
+compile.mid.output.lines[grep("n.mid<-",compile.mid.output.lines)]<-paste0("n.mid<-",n.mid)
+compile.mid.output.lines[grep("n.final<-",compile.mid.output.lines)]<-paste0("n.final<-",n.final)
+compile.mid.output.lines[grep("jobs.per.node<-",compile.mid.output.lines)]<-paste0("jobs.per.node<-",jobs.per.node)
+compile.mid.output.lines[grep("data.dir<-",compile.mid.output.lines)]<-paste0("data.dir<-",'"',data.dir,'"')
+compile.mid.output.lines[min(grep("out.dir<-",compile.mid.output.lines))]<-paste0("out.dir<-",'"',out.dir,'"')
+compile.mid.output.lines[grep("lhs.dir<-",compile.mid.output.lines)]<-paste0("lhs.dir<-",'"',lhs.dir,'"')
+compile.mid.output.lines[grep("code.dir<-",compile.mid.output.lines)]<-paste0("code.dir<-",'"',code.dir,'"')
+compile.mid.output.lines[grep("loc<-",compile.mid.output.lines)]<-paste0("loc<-",'"',loc,'"')
+compile.mid.output.lines[grep("model<-",compile.mid.output.lines)]<-paste0("model<-",'"',model,'"')
+compile.mid.output.lines[grep("subset.data<-",compile.mid.output.lines)]<-paste0("subset.data<-",'"',subset.data,'"')
+compile.mid.output.lines[grep("smooth.interval<-",compile.mid.output.lines)]<-paste0("smooth.interval<-",'"',smooth.interval,'"')
+compile.mid.output.lines[grep("start.job.index<-",compile.mid.output.lines)]<-paste0("start.job.index<-",i*jobs.per.node+1)
+
+setwd(base.dir)
+writeLines(compile.mid.output.lines,con="compile.initial.output.R")
+
+setwd(code.dir)
 compile.final.output.lines<-readLines("compile.final.output.R")
 
-compile.final.output.lines[grep("n.final<-",compile.final.output.lines)]<-paste0("n.final<-",n.final)
+compile.final.output.lines[grep("n.initial<-",compile.final.output.lines)]<-paste0("n.initial<-",n.initial)
+compile.final.output.lines[grep("n.mid<-",compile.final.output.lines)]<-paste0("n.mid<-",n.mid)
 compile.final.output.lines[grep("n.final<-",compile.final.output.lines)]<-paste0("n.final<-",n.final)
 compile.final.output.lines[grep("jobs.per.node<-",compile.final.output.lines)]<-paste0("jobs.per.node<-",jobs.per.node)
 compile.final.output.lines[grep("data.dir<-",compile.final.output.lines)]<-paste0("data.dir<-",'"',data.dir,'"')
