@@ -29,7 +29,7 @@ for(loc in locs) #add nested loops if needed for other models, subsets, etc.
                 " jid3=$(sbatch --dependency=afterany:${jid2##* } ",paste0(job.name,".mid.q);"),
                 " jid4=$(sbatch --dependency=afterany:${jid3##* } ",paste0(job.name,".comp.mid.q);"),
                 " jid5=$(sbatch --dependency=afterany:${jid4##* } ",paste0(job.name,".final.q);"),
-                " sbatch --dependency=afterany:${jid5##* } ",paste0(job.name,"comp.final.q"))
+                " sbatch --dependency=afterany:${jid5##* } ",paste0(job.name,".comp.final.q"))
     system(cmd)
 }
 }
