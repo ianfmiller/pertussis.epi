@@ -1,7 +1,8 @@
 ### compile data from final run ###
 ## data written in separate files for each core to avoid errors associated with multiple cores writing to the same file simultaneously
 
-n.initial<-2000 #number of LHS samples
+n.initial<-2500 #number of LHS samples
+n.mid<-250 #n best samples to analyze further
 n.final<-250 #n best samples to analyze further
 jobs.per.node<-25 #number of LHS samples to analyze in the same script
 
