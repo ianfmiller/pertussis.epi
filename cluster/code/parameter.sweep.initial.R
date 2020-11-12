@@ -61,7 +61,7 @@ foreach(i=0:(jobs.per.node-1), .inorder=F, .combine = "rbind") %dorng% {
   print(paste("finished i =",i+start.job.index))
   m2<-list(mif=m2,ll=logmeanexp(ll,se=TRUE))
   setwd(out.dir) 
-  saveRDS(m2,file=paste(model,loc,subset.data,smooth.interval,paste("iter",job.index,sep=""),"mif.RDS",sep="."))
+  saveRDS(m2,file=paste(model,loc,subset.data,smooth.interval,paste("iter",job.index,sep=""),"initial.mif.RDS",sep="."))
   data.frame("loc"=loc,"model"=model,"subset.data"=subset.data,"smooth.interval"=smooth.interval,"lhs.row"=i+start.job.index,"loglik"=m2$ll[[1]],"se"=m2$ll[[2]],rbind(coef(m2$mif)))
 }->mf.out
 
