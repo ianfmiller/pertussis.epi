@@ -286,7 +286,7 @@ compile.mid.output.lines[grep("smooth.interval<-",compile.mid.output.lines)]<-pa
 compile.mid.output.lines[grep("start.job.index<-",compile.mid.output.lines)]<-paste0("start.job.index<-",i*jobs.per.node+1)
 
 setwd(base.dir)
-writeLines(compile.mid.output.lines,con="compile.initial.output.R")
+writeLines(compile.mid.output.lines,con="compile.mid.output.R")
 
 setwd(code.dir)
 compile.final.output.lines<-readLines("compile.final.output.R")
