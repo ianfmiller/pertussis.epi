@@ -66,7 +66,7 @@ foreach(i=0:(jobs.per.node-1), .inorder=F, .combine = "rbind") %dorng% {
   m1<-m1$mif
   continue(m1,Nmif=5,rw.sd=rw.sd,cooling.fraction.50=0.5, Np=25,cooling.type="hyperbolic")->m2
   print(paste0("i = ",i+start.job.index," mif complete"))
-  ll <- replicate(n=10,logLik(pfilter(m2,Np=1000)))
+  ll <- replicate(n=10,logLik(pfilter(m2,Np=10)))
   print(paste("finished i =",i+start.job.index))
   m2<-list(mif=m2,ll=logmeanexp(ll,se=TRUE))
   setwd(out.dir)
