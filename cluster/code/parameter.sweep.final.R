@@ -3,10 +3,10 @@ library(doRNG)
 set.seed(13548996)
 ### set job iteration ###
 
-n.initial<-2500 #number of LHS samples
-n.mid<-250  #number of LHS samples
-n.final<-25 #number of LHS samples
-jobs.per.node<-25 #number of LHS samples to analyze in the same script
+n.initial<-2000 #number of LHS samples
+n.mid<-200  #number of LHS samples
+n.final<-20 #number of LHS samples
+jobs.per.node<-20 #number of LHS samples to analyze in the same script
 start.job.index<-1 #first index parameter set to analyze
 
 ### set region, smoothing window, vaccine era, model
