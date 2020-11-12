@@ -60,7 +60,7 @@ foreach(i=0:(jobs.per.node-1), .inorder=F, .combine = "rbind") %dorng% {
   job.index<-start.job.index+i
   lhs.samp<-job.set[job.index]
   setwd(out.dir)
-  m1<-readRDS(paste0(model,".",loc,".",subset.data,".",smooth.interval,".iter",lhs.samp,".mif.RDS"))
+  m1<-readRDS(paste0(model,".",loc,".",subset.data,".",smooth.interval,".iter",lhs.samp,".initial.mif.RDS"))
   m1<-m1$mif
   continue(m1,Nmif=500,rw.sd=rw.sd,cooling.fraction.50=0.5, Np=250,cooling.type="hyperbolic") %>%
     continue(Nmif=50,rw.sd=rw.sd,cooling.fraction.50=0.25, Np=250,cooling.type="hyperbolic") %>%
@@ -71,7 +71,7 @@ foreach(i=0:(jobs.per.node-1), .inorder=F, .combine = "rbind") %dorng% {
   print(paste("finished i =",i+start.job.index))
   m2<-list(mif=m2,ll=logmeanexp(ll,se=TRUE))
   setwd(out.dir)
-  saveRDS(m2,file=paste(model,loc,subset.data,smooth.interval,paste("iter",lhs.samp,sep=""),".mid.mif.RDS",sep="."))
+  saveRDS(m2,file=paste(model,loc,subset.data,smooth.interval,paste("iter",lhs.samp,sep=""),"mid.mif.RDS",sep="."))
   data.frame("loc"=loc,"model"=model,"subset.data"=subset.data,"smooth.interval"=smooth.interval,"lhs.row"=lhs.samp,"loglik"=m2$ll[[1]],"se"=m2$ll[[2]],rbind(coef(m2$mif)))
 }->mf.out
 
