@@ -4,10 +4,10 @@ library(doParallel)
 set.seed(13548996)
 ### set job iteration ###
 
-n.initial<-2000 #number of LHS samples
-n.final<-250 #n best samples to analyze further
+n.initial<-2500 #number of LHS samples
+n.mid<-250  #number of LHS samples
+n.final<-25 #number of LHS samples
 jobs.per.node<-25 #number of LHS samples to analyze in the same script
-start.job.index<-1 #first index parameter set to analyze
 
 ### set region, smoothing window, vaccine era, model
 loc<-"US" #loc is the region or vector of regions to analyze NEED TO MAKE SURE THIS WORKS FOR DC, NY, AND NYC
