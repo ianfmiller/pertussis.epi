@@ -93,7 +93,7 @@ if(!file.exists(paste0(job.name,".mid.q")))
       "#SBATCH --mail-type=END",
       "#SBATCH --mail-user=ifmiller@princeton.edu",
       "",
-      paste0("cd ",batch.dir,"/dir.f$SLURM_ARRAY_TASK_ID"),
+      paste0("cd ",batch.dir,"/dir.m$SLURM_ARRAY_TASK_ID"),
       "srun R CMD BATCH parameter.sweep.mid.R"
     ),
     con=paste0(job.name,".mid.q")
