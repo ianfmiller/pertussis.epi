@@ -5,19 +5,25 @@ smooth.interval<-"two.weeks"
 job.name<-paste0(loc,".",model,".",subset.data,".",smooth.interval)
 
 ## plot LHS
-setwd("~/Dropbox (Princeton)/USPertussis/pomp/results/LHS")
+setwd("~/Documents/GitHub/pertussis.epi/results/LHS")
 data<-readRDS(paste0(job.name,".LHS.RDS"))
 pairs(~beta0+beta1+beta_mod_Awp+rho+beta_mod_Aap+beta_mod_An+rec_rate,data=data,col="grey",pch=16,cex=.4)
 pairs(~S_0+I_0+Vwp_0+Vap_0+Vn_0+Awp_0+Aap_0+An_0,data=data,col="grey",pch=16,cex=.4)
 
 ## plot initial results
-setwd("~/Dropbox (Princeton)/USPertussis/pomp/results/initial results")
+setwd("~/Documents/GitHub/pertussis.epi/results/initial.results")
 data<-read.csv(paste0("initial.sweep.",job.name,".csv"))
 pairs(~beta0+beta1+beta_mod_Awp+rho+beta_mod_Aap+beta_mod_An+rec_rate,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],rgb(1,0,0,alpha=.5),rgb(.6,.6,.6,alpha=.5)),pch=16,cex=.4)
 pairs(~S_0+I_0+Vwp_0+Vap_0+Vn_0+Awp_0+Aap_0+An_0,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],rgb(1,0,0,alpha=.5),rgb(.6,.6,.6,alpha=.5)),pch=16,cex=.4)
      
+## plot mid results
+setwd("~/Documents/GitHub/pertussis.epi/results/mid.results")
+data<-read.csv(paste0("mid.sweep.",job.name,".csv"))
+pairs(~beta0+beta1+beta_mod_Awp+rho+beta_mod_Aap+beta_mod_An+rec_rate,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],"red","grey"),pch=16,cex=.4)
+pairs(~S_0+I_0+Vwp_0+Vap_0+Vn_0+Awp_0+Aap_0+An_0,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],"red","grey"),pch=16,cex=.4)
+
 ## plot final results
-setwd("~/Dropbox (Princeton)/USPertussis/pomp/results/final results")
+setwd("~/Documents/GitHub/pertussis.epi/results/final.results")
 data<-read.csv(paste0("final.sweep.",job.name,".csv"))
 pairs(~beta0+beta1+beta_mod_Awp+rho+beta_mod_Aap+beta_mod_An+rec_rate,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],"red","grey"),pch=16,cex=.4)
 pairs(~S_0+I_0+Vwp_0+Vap_0+Vn_0+Awp_0+Aap_0+An_0,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],"red","grey"),pch=16,cex=.4)
@@ -25,33 +31,37 @@ pairs(~S_0+I_0+Vwp_0+Vap_0+Vn_0+Awp_0+Aap_0+An_0,data=data,col=ifelse((data$logl
 #### two parameter plot
 ## grey is LHS, red is initial run, blue is final run. Size proportional to likelihood
 par(mfrow=c(1,1))
-setwd("~/Dropbox (Princeton)/USPertussis/pomp/results/LHS")
-data<-readRDS(paste0(job.name,".LHS.RDS"))
-plot(data$beta0,data$beta1,col="grey",pch=16)
+setwd("~/Documents/GitHub/pertussis.epi/results/LHS")
+lhs.data<-readRDS(paste0(job.name,".LHS.RDS"))
+plot(lhs.data$beta0,lhs.data$beta1,col="grey",pch=16)
 
-setwd("~/Dropbox (Princeton)/USPertussis/pomp/results/initial results")
-data<-read.csv(paste0("initial.sweep.",job.name,".csv"))
-data<-subset(data,loglik>=quantile(data$loglik,.95))
-points(data$beta0,data$beta1,col="red",pch=16,cex=(data$loglik-min(data$loglik))/(max(data$loglik)-min(data$loglik)))
+setwd("~/Documents/GitHub/pertussis.epi/results/initial.results")
+initial.data<-read.csv(paste0("initial.sweep.",job.name,".csv"))
+initial.data<-subset(initial.data,loglik>=quantile(initial.data$loglik,.95))
+points(initial.data$beta0,initial.data$beta1,col="blue",pch=16,cex=(initial.data$loglik-min(initial.data$loglik))/(max(initial.data$loglik)-min(initial.data$loglik)))
 
+setwd("~/Documents/GitHub/pertussis.epi/results/mid.results")
+mid.data<-read.csv(paste0("mid.sweep.",job.name,".csv"))
+mid.data<-subset(mid.data,loglik>=quantile(mid.data$loglik,.95))
+points(mid.data$beta0,mid.data$beta1,col="purple",pch=16,cex=(mid.data$loglik-min(mid.data$loglik))/(max(mid.data$loglik)-min(mid.data$loglik)))
 
-setwd("~/Dropbox (Princeton)/USPertussis/pomp/results/final results")
-data<-read.csv(paste0("final.sweep.",job.name,".csv"))
-data<-subset(data,loglik>=quantile(data$loglik,.95))
-points(data$beta0,data$beta1,col="blue",pch=16,cex=(data$loglik-min(data$loglik))/(max(data$loglik)-min(data$loglik)))
+setwd("~/Documents/GitHub/pertussis.epi/results/final.results")
+final.data<-read.csv(paste0("final.sweep.",job.name,".csv"))
+final.data<-subset(final.data,loglik>=quantile(final.data$loglik,.95))
+points(final.data$beta0,final.data$beta1,col="red",pch=16,cex=(final.data$loglik-min(final.data$loglik))/(max(final.data$loglik)-min(final.data$loglik)))
 
 ### plot simulations
-setwd("~/Dropbox (Princeton)/USPertussis/pomp/results/LHS")
+setwd("~/Documents/GitHub/pertussis.epi/results/LHS")
 LHS<-readRDS(paste0(job.name,".LHS.RDS"))
-data.dir<-"~/Dropbox (Princeton)/USPertussis/pomp/cluster/data"
-setwd("~/Dropbox (Princeton)/USPertussis/pomp/cluster/code")
+data.dir<-"~/Documents/GitHub/pertussis.epi/cluster/data"
+setwd("~/Documents/GitHub/pertussis.epi/cluster/code")
 source("prep.data.covar.R")
-setwd("~/Downloads")
-source("~/Dropbox (Princeton)/USPertussis/pomp/cluster/code/build.pomp.none.equal.R")
+setwd("~/Documents/GitHub/pertussis.epi/cluster/code/models")
+source("build.pomp.none.equal.R")
 
-setwd("~/Dropbox (Princeton)/USPertussis/pomp/results/final results")
-data<-read.csv(paste0("final.sweep.",job.name,".csv"))
-params<-data[order(-data$loglik)[1],8:33]
+setwd("~/Documents/GitHub/pertussis.epi/results/final.results")
+fit.params<-read.csv(paste0("final.sweep.",job.name,".csv"))
+params<-fit.params[order(-fit.params$loglik)[1],8:33]
 
 simulate(m1,params=params,nsim=8,format="d",include.data=TRUE,verbose=T)->out
 
@@ -82,10 +92,10 @@ points(m1@times,lower,type="l",col="red")
 polygon(c(m1@times,rev(m1@times)),c(lower,rev(upper)),col="pink",border = NA)
 points(m1@times,c(m1@data),type="l")
 
-i<-1565
-setwd("~/Downloads/tout")
-file.name<-paste0(model,".",loc,".",subset.data,".",smooth.interval,".iter",i,"..final.mif.RDS")
+i<-1391
+setwd("~/Downloads/results.out")
+file.name<-paste0(model,".",loc,".",subset.data,".",smooth.interval,".iter",i,".final.mif.RDS")
 mod<-readRDS(file.name)
-plot(0:950,mod$mif@traces[,"beta0"])
-abline(v=350)
-
+plot(1:length(mod$mif@traces[,"loglik"]),mod$mif@traces[,"loglik"],type="l")
+abline(v=350,col="red")
+abline(v=850,col="red")
