@@ -57,7 +57,7 @@ foreach(i=0:(jobs.per.node-1), .inorder=F, .combine = "rbind") %dorng% {
   
   job.index<-start.job.index+i
   params<-params.mat[job.index,]
-  m2<-mif2(m1,Nmif=350,params=params,rw.sd=rw.sd,cooling.fraction.50=0.5, Np=250,cooling.type="hyperbolic")
+  m2<-mif2(m1,Nmif=350,params=params,rw.sd=rw.sd,cooling.fraction.50=0.8, Np=250,cooling.type="hyperbolic")
   print(paste0("i = ",i+start.job.index," mif complete"))
   ll <- replicate(n=10,logLik(pfilter(m2,Np=1000)))
   print(paste("finished i =",i+start.job.index))
