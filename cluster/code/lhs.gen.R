@@ -32,8 +32,8 @@ if (file.exists(LHS.file.name))
       An_0=0.0)
     
     upper.param.bounds<-c(
-      Vwp_wane_rate = 1/(365*50), 
-      Vn_wane_rate = 1/(365*50), 
+      Vwp_wane_rate = 1/(365*100), 
+      Vn_wane_rate = 1/(365*100), 
       rec_rate = 1/31,
       Vwp_fail_rate=1, 
       Vwp_symptom_rate=1, 
@@ -75,7 +75,7 @@ if (file.exists(LHS.file.name))
       V_0=0.0)
     
     upper.param.bounds<-c(
-      V_wane_rate = 1/(365*50), 
+      V_wane_rate = 1/(365*100), 
       rec_rate = 1/31,
       V_fail_rate=1, 
       V_symptom_rate=1, 
@@ -115,8 +115,8 @@ if (file.exists(LHS.file.name))
       TDaP_waning_boost=0.0)
     
     upper.param.bounds<-c(
-      Vv_wane_rate = 1/(365*50), 
-      Vn_wane_rate = 1/(365*50),
+      Vv_wane_rate = 1/(365*100), 
+      Vn_wane_rate = 1/(365*100),
       rec_rate = 1/31,
       V_fail_rate=1, 
       V_symptom_rate=1, 
@@ -162,8 +162,8 @@ if (file.exists(LHS.file.name))
       An_0=0.0)
     
     upper.param.bounds<-c(
-      Vv_wane_rate = 1/(365*50), 
-      Vn_wane_rate = 1/(365*50), 
+      Vv_wane_rate = 1/(365*100), 
+      Vn_wane_rate = 1/(365*100), 
       rec_rate = 1/31,
       Vv_fail_rate=1, 
       Vv_symptom_rate=1, 
@@ -213,8 +213,8 @@ if (file.exists(LHS.file.name))
       TDaP_waning_boost=0.0)
     
     upper.param.bounds<-c(
-      Vv_wane_rate = 1/(365*50), 
-      Vn_wane_rate = 1/(365*50), 
+      Vv_wane_rate = 1/(365*100), 
+      Vn_wane_rate = 1/(365*100), 
       rec_rate = 1/31,
       Vv_fail_rate=1, 
       Vv_symptom_rate=1, 
@@ -264,8 +264,8 @@ if (file.exists(LHS.file.name))
       Aap_0=0.0)
     
     upper.param.bounds<-c(
-      Vnwp_wane_rate = 1/(365*50), 
-      Vap_wane_rate = 1/(365*50), 
+      Vnwp_wane_rate = 1/(365*100), 
+      Vap_wane_rate = 1/(365*100), 
       rec_rate = 1/31,
       Vnwp_fail_rate=1, 
       Vnwp_symptom_rate=1, 
@@ -319,10 +319,10 @@ if (file.exists(LHS.file.name))
       TDaP_waning_boost=0.0)
     
     upper.param.bounds<-c(
-      Vwp1_wane_rate = 1/(365*50), 
-      Vwp2_wane_rate = 1/(365*50), 
-      Vap_wane_rate = 1/(365*50), 
-      Vn_wane_rate = 1/(365*50), 
+      Vwp1_wane_rate = 1/(365*100), 
+      Vwp2_wane_rate = 1/(365*100), 
+      Vap_wane_rate = 1/(365*100), 
+      Vn_wane_rate = 1/(365*100), 
       rec_rate = 1/31,
       Vnwp_fail_rate=1, 
       Vnwp_symptom_rate=1, 
@@ -374,8 +374,8 @@ if (file.exists(LHS.file.name))
       Anap_0=0.0)
     
     upper.param.bounds<-c(
-      Vwp_wane_rate = 1/(365*50), 
-      Vnap_wane_rate = 1/(365*50), 
+      Vwp_wane_rate = 1/(365*100), 
+      Vnap_wane_rate = 1/(365*100), 
       rec_rate = 1/31,
       Vwp_fail_rate=1, 
       Vwp_symptom_rate=1, 
@@ -429,10 +429,10 @@ if (file.exists(LHS.file.name))
       TDaP_waning_boost=0.0)
     
     upper.param.bounds<-c(
-      Vwp1_wane_rate = 1/(365*50), 
-      Vwp2_wane_rate = 1/(365*50), 
-      Vap_wane_rate = 1/(365*50), 
-      Vn_wane_rate = 1/(365*50), 
+      Vwp1_wane_rate = 1/(365*100), 
+      Vwp2_wane_rate = 1/(365*100), 
+      Vap_wane_rate = 1/(365*100), 
+      Vn_wane_rate = 1/(365*100), 
       rec_rate = 1/31,
       Vwp_fail_rate=1, 
       Vwp_symptom_rate=1, 
@@ -490,9 +490,9 @@ if (file.exists(LHS.file.name))
       An_0=0.0)
     
     upper.param.bounds<-c(
-      Vwp_wane_rate = 1/(365*50), 
-      Vap_wane_rate = 1/(365*50), 
-      Vn_wane_rate = 1/(365*50), 
+      Vwp_wane_rate = 1/(365*100), 
+      Vap_wane_rate = 1/(365*100), 
+      Vn_wane_rate = 1/(365*100), 
       rec_rate = 1/31,
       Vwp_fail_rate=1, 
       Vwp_symptom_rate=1, 
@@ -555,10 +555,10 @@ if (file.exists(LHS.file.name))
       TDaP_waning_boost=0.0)
     
     upper.param.bounds<-c(
-      Vwp1_wane_rate = 1/(365*50), 
-      Vwp2_wane_rate = 1/(365*50), 
-      Vap_wane_rate = 1/(365*50), 
-      Vn_wane_rate = 1/(365*50), 
+      Vwp1_wane_rate = 1/(365*100), 
+      Vwp2_wane_rate = 1/(365*100), 
+      Vap_wane_rate = 1/(365*100), 
+      Vn_wane_rate = 1/(365*100), 
       rec_rate = 1/31,
       Vwp_fail_rate=1, 
       Vwp_symptom_rate=1, 
