@@ -4,7 +4,7 @@ setwd("~/pertussis/code")
 analysis.setup.lines<-readLines("setup.mif.files.R")
 
 locs<-c("US")
-models<-c("none.equal")
+models<-c("all.equal","none.equal","Vn.equal.Vwp")
 subset.data<-"all" #vaccine era to subset. options are "all" "wP" and "aP"
 smooth.interval<-"two.weeks"  #time period over which to smooth data, options are "two.weeks" "four.weeks" and "none"
 for(model in models)
