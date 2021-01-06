@@ -92,7 +92,7 @@ points(m1@times,lower,type="l",col="red")
 polygon(c(m1@times,rev(m1@times)),c(lower,rev(upper)),col="pink",border = NA)
 points(m1@times,c(m1@data),type="l")
 
-i<-1197
+i<-411
 setwd("~/Downloads/results.out.2")
 file.name<-paste0(model,".",loc,".",subset.data,".",smooth.interval,".iter",i,".final.mif.RDS")
 mod<-readRDS(file.name)
