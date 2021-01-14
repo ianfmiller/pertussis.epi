@@ -14,7 +14,7 @@ rproc <- Csnippet("
                   double N, beta, latent_trans_rate, rec_rate, foi, dw, nbirths, Sbirths, Vwp_births, Vap_births;
                   double rate[33], trans[33];
                   
-                  // fixed vars
+                  // fixed vars vals from https://stm.sciencemag.org/content/scitransmed/suppl/2018/03/26/10.434.eaaj1748.DC1/aaj1748_SM.pdf
                   
                   latent_trans_rate = 0.125;
                   rec_rate = 0.0666;
