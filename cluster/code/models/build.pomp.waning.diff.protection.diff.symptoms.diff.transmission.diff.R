@@ -4,10 +4,10 @@ library(lubridate)
 library(pomp)
 library(doParallel)
 
-statenames <- c("S","E","En","Ewp","Eap","I","Vn","Vwp","Vap","An","Awp","Aap","W","C")
+statenames <- c("S","E","En","Ewp","Eap","I","Vn","Vwp","Vap","A","An","Awp","Aap","W","C")
 t0 <- min(dates)
 
-init.names<-c("S_0","E_0","En_0","Ewp_0","Eap_0","I_0","Vn_0","Vwp_0","Vap_0","An_0","Awp_0","Aap_0")
+init.names<-c("S_0","E_0","En_0","Ewp_0","Eap_0","I_0","Vn_0","Vwp_0","Vap_0","A_0","An_0","Awp_0","Aap_0")
 param.names<-c("Vn_wane_rate","Vwp_wane_rate","Vap_wane_rate","Vn_fail_rate","Vn_symptom_rate","Vwp_fail_rate","Vwp_symptom_rate","Vap_fail_rate","Vap_symptom_rate","naive_symptom_rate","beta0","beta1","beta_mod_An","beta_mod_Awp","beta_mod_Aap","beta_mod_A","rho","sigmaSE","lag",init.names)
 
 rproc <- Csnippet("
@@ -24,7 +24,7 @@ rproc <- Csnippet("
                   
                   // force of infection
                   beta = beta0 * (1 + beta1 * sin(2 * 3.14159 * (t-lag*365.25)/365));
-                  foi = (beta*I+beta*beta_mod_Awp*Awp+beta*beta_mod_Aap*Aap+beta*beta_mod_An*An)/N;
+                  foi = (beta*I+beta*beta_mod_Awp*Awp+beta*beta_mod_Aap*Aap+beta*beta_mod_An*An+beta*beta_mod_A*A)/N;
                   
                   // white noise (extra-demographic stochasticity)
                   dw = rgammawn(sigmaSE,dt);
@@ -34,8 +34,8 @@ rproc <- Csnippet("
                   rate[1] = death_rate/365.25; // natural mortality
                   
                   // E
-                  rate[2] = (1-naive_symptom_rate)*latent_trans.rate; // rate of transition from E to A
-                  rate[3] = naive_symptom_rate*latent_trans.rate; // rate of transition from E to I
+                  rate[2] = (1-naive_symptom_rate)*latent_trans_rate; // rate of transition from E to A
+                  rate[3] = naive_symptom_rate*latent_trans_rate; // rate of transition from E to I
                   rate[4] = death_rate/365.25; // natural mortality
                   
                   // En
