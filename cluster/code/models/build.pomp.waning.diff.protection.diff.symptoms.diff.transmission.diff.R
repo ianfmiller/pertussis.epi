@@ -4,10 +4,10 @@ library(lubridate)
 library(pomp)
 library(doParallel)
 
-statenames <- c("S","E","En","Ewp","Eap","I","Vn","Vwp","Vap","A","An","Awp","Aap","W","C")
+statenames <- c("S","E","En","Ewp","Eap","I","A","An","Awp","Aap","Vn","Vwp","Vap","W","C")
 t0 <- min(dates)
 
-init.names<-c("S_0","E_0","En_0","Ewp_0","Eap_0","I_0","Vn_0","Vwp_0","Vap_0","A_0","An_0","Awp_0","Aap_0")
+init.names<-c("S_0","E_0","En_0","Ewp_0","Eap_0","I_0","A_0","An_0","Awp_0","Aap_0","Vn_0","Vwp_0","Vap_0")
 param.names<-c("Vn_wane_rate","Vwp_wane_rate","Vap_wane_rate","Vn_fail_rate","Vn_symptom_rate","Vwp_fail_rate","Vwp_symptom_rate","Vap_fail_rate","Vap_symptom_rate","naive_symptom_rate","beta0","beta1","beta_mod_An","beta_mod_Awp","beta_mod_Aap","beta_mod_A","rho","sigmaSE","lag",init.names)
 
 rproc <- Csnippet("
@@ -20,7 +20,7 @@ rproc <- Csnippet("
                   rec_rate = 0.0666;
                   
                   // pop size
-                  N = S+I+Vwp+Vap+Vn+Awp+Aap+An;
+                  N = S+E+En+Ewp+Eap+I+A+An+Awp+Aap+Vn+Vwp+Vap;
                   
                   // force of infection
                   beta = beta0 * (1 + beta1 * sin(2 * 3.14159 * (t-lag*365.25)/365));
@@ -107,9 +107,9 @@ rproc <- Csnippet("
                   reulermultinom(2, An, &rate[18], dt, &trans[18]);
                   reulermultinom(2, Awp, &rate[20], dt, &trans[20]);
                   reulermultinom(2, Aap, &rate[22], dt, &trans[22]);
-                  reulermultinom(3, Vwp, &rate[24], dt, &trans[24]);
-                  reulermultinom(3, Vap, &rate[27], dt, &trans[27]);
-                  reulermultinom(3, Vn, &rate[30], dt, &trans[30]);
+                  reulermultinom(3, Vn, &rate[24], dt, &trans[24]);
+                  reulermultinom(3, Vwp, &rate[27], dt, &trans[27]);
+                  reulermultinom(3, Vap, &rate[30], dt, &trans[30]);
                   
                   S += Sbirths + trans[25] + trans[28] + trans[31]- trans[0] - trans[1];
                   E += trans[0] - trans[2] - trans[3] - trans[4];
@@ -168,7 +168,7 @@ rmeas <- Csnippet("
 partrans=parameter_trans(
   log=c("Vn_wane_rate","Vwp_wane_rate","Vap_wane_rate","beta0","sigmaSE"),
   logit=c("naive_symptom_rate","Vn_fail_rate","Vn_symptom_rate","Vwp_fail_rate","Vwp_symptom_rate","Vap_fail_rate","Vap_symptom_rate","beta_mod_A","beta_mod_An","beta_mod_Awp","beta_mod_Aap","rho","lag","beta1"),
-  barycentric=c("S_0","E_0","En_0","Ewp_0","Eap_0","I_0","Vn_0","Vwp_0","Vap_0","An_0","Awp_0","Aap_0")
+  barycentric=c("S_0","E_0","En_0","Ewp_0","Eap_0","I_0","Vn_0","Vwp_0","Vap_0","A","An_0","Awp_0","Aap_0")
 )
 
 
@@ -189,7 +189,7 @@ pomp(data=data,
 
 est.pars<-c("Vn_wane_rate","Vwp_wane_rate","Vap_wane_rate","Vn_fail_rate","Vn_symptom_rate","Vwp_fail_rate","Vwp_symptom_rate","Vap_fail_rate","Vap_symptom_rate","naive_symptom_rate",
             "beta0","beta1","beta_mod_An","beta_mod_Awp","beta_mod_Aap","beta_mod_A","rho","sigmaSE","lag",
-            "S_0","E_0","En_0","Ewp_0","Eap_0","I_0","Vn_0","Vwp_0","Vap_0","An_0","Awp_0","Aap_0")
+            "S_0","E_0","En_0","Ewp_0","Eap_0","I_0","Vn_0","Vwp_0","Vap_0","A","An_0","Awp_0","Aap_0")
 
 rw.sd=rw.sd(Vn_wane_rate=0.02,Vwp_wane_rate=0.02,Vap_wane_rate=ifelse(time >= 9862,0.02,0),Vn_fail_rate=0.02,Vn_symptom_rate=0.02,Vwp_fail_rate=0.02,Vwp_symptom_rate=0.02,Vap_fail_rate=ifelse(time >= 9862,0.02,0),Vap_symptom_rate=ifelse(time >= 9862,0.02,0),naive_symptom_rate=0.02,
             beta0=0.02,beta1=0.02,beta_mod_An=0.02,beta_mod_Awp=0.02,beta_mod_Aap=ifelse(time >= 9862,0.02,0),beta_mod_A=0.02,rho=0.02,sigmaSE=0.02,lag=0.02,
