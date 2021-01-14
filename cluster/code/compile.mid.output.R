@@ -1,4 +1,4 @@
-### compile data from initial run ###
+### compile data from mid run ###
 ## data written in separate files for each core to avoid errors associated with multiple cores writing to the same file simultaneously
 
 n.initial<-2500 #number of LHS samples
@@ -26,28 +26,19 @@ batch.dir<-paste0(base.dir,"/batch")
 
 setwd(partial.out.dir)
 output<-c()
-for (i in seq(1,n.initial,jobs.per.node))
+for (i in seq(1,n.mid,jobs.per.node))
 {
-  output.chunk<-read.csv(paste0(i,"initial.sweep.",loc,".",model,".",subset.data,".",smooth.interval,".csv"))
+  output.chunk<-read.csv(paste0(i,"mid.sweep.",loc,".",model,".",subset.data,".",smooth.interval,".csv"))
   output<-rbind(output,output.chunk)
 }
 
 setwd(out.dir)
-write.csv(output,file=paste0("initial.sweep.",loc,".",model,".",subset.data,".",smooth.interval,".csv"),row.names = F)
+write.csv(output,file=paste0("mid.sweep.",loc,".",model,".",subset.data,".",smooth.interval,".csv"),row.names = F)
 
 setwd(partial.out.dir)
-for (i in seq(1,n.initial,jobs.per.node))
+for (i in seq(1,n.mid,jobs.per.node))
 {
-  file.remove(paste0(i,"initial.sweep.",loc,".",model,".",subset.data,".",smooth.interval,".csv"))
+  file.remove(paste0(i,"mid.sweep.",loc,".",model,".",subset.data,".",smooth.interval,".csv"))
 }
 
-###throw out un-needed mif files
-setwd(out.dir)
-initial.sweep<-read.csv(paste0(out.dir,"/initial.sweep.",loc,".",model,".",subset.data,".",smooth.interval,".csv"))
-initial.sweep<-initial.sweep[order(initial.sweep$loglik,decreasing = T),]
-trash.indicies<-initial.sweep[(n.final+1):(dim(initial.sweep)[1]),"lhs.row"]
-for(i in trash.indicies)
-{
-  file.remove(paste(model,loc,subset.data,smooth.interval,paste("iter",i,sep=""),"mif.RDS",sep="."))
-}
 

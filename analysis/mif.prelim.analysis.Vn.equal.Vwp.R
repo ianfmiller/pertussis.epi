@@ -1,5 +1,5 @@
 loc<-"US" 
-model<-"none.equal"
+model<-"Vn.equal.Vwp"
 subset.data<-"all" 
 smooth.interval<-"two.weeks" 
 job.name<-paste0(loc,".",model,".",subset.data,".",smooth.interval)
@@ -7,26 +7,26 @@ job.name<-paste0(loc,".",model,".",subset.data,".",smooth.interval)
 ## plot LHS
 setwd("~/Documents/GitHub/pertussis.epi/results/LHS")
 data<-readRDS(paste0(job.name,".LHS.RDS"))
-pairs(~beta0+beta1+beta_mod_Awp+rho+beta_mod_Aap+beta_mod_An+rec_rate,data=data,col="grey",pch=16,cex=.4)
-pairs(~S_0+I_0+Vwp_0+Vap_0+Vn_0+Awp_0+Aap_0+An_0,data=data,col="grey",pch=16,cex=.4)
+pairs(~beta0+beta1+beta_mod_Anwp+beta_mod_Aap+rho+rec_rate,data=data,col="grey",pch=16,cex=.4)
+pairs(~S_0+I_0+Vnwp_0+Vap_0+Anwp_0+Aap_0,data=data,col="grey",pch=16,cex=.4)
 
 ## plot initial results
 setwd("~/Documents/GitHub/pertussis.epi/results/initial.results")
 data<-read.csv(paste0("initial.sweep.",job.name,".csv"))
-pairs(~beta0+beta1+beta_mod_Awp+rho+beta_mod_Aap+beta_mod_An+rec_rate,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],rgb(1,0,0,alpha=.5),rgb(.6,.6,.6,alpha=.5)),pch=16,cex=.4)
-pairs(~S_0+I_0+Vwp_0+Vap_0+Vn_0+Awp_0+Aap_0+An_0,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],rgb(1,0,0,alpha=.5),rgb(.6,.6,.6,alpha=.5)),pch=16,cex=.4)
-     
+pairs(~beta0+beta1+beta_mod_Anwp+beta_mod_Aap+rho+rec_rate,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],rgb(1,0,0,alpha=.5),rgb(.6,.6,.6,alpha=.5)),pch=16,cex=.4)
+pairs(~S_0+I_0+Vnwp_0+Vap_0+Anwp_0+Aap_0,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],rgb(1,0,0,alpha=.5),rgb(.6,.6,.6,alpha=.5)),pch=16,cex=.4)
+
 ## plot mid results
 setwd("~/Documents/GitHub/pertussis.epi/results/mid.results")
 data<-read.csv(paste0("mid.sweep.",job.name,".csv"))
-pairs(~beta0+beta1+beta_mod_Awp+rho+beta_mod_Aap+beta_mod_An+rec_rate,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],"red","grey"),pch=16,cex=.4)
-pairs(~S_0+I_0+Vwp_0+Vap_0+Vn_0+Awp_0+Aap_0+An_0,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],"red","grey"),pch=16,cex=.4)
+pairs(~beta0+beta1+beta_mod_Anwp+beta_mod_Aap+rho+rec_rate,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],"red","grey"),pch=16,cex=.4)
+pairs(~S_0+I_0+Vnwp_0+Vap_0+Anwp_0+Aap_0,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],"red","grey"),pch=16,cex=.4)
 
 ## plot final results
 setwd("~/Documents/GitHub/pertussis.epi/results/final.results")
 data<-read.csv(paste0("final.sweep.",job.name,".csv"))
-pairs(~beta0+beta1+beta_mod_Awp+rho+beta_mod_Aap+beta_mod_An+rec_rate,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],"red","grey"),pch=16,cex=.4)
-pairs(~S_0+I_0+Vwp_0+Vap_0+Vn_0+Awp_0+Aap_0+An_0,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],"red","grey"),pch=16,cex=.4)
+pairs(~beta0+beta1+beta_mod_Anwp+beta_mod_Aap+rho+rec_rate,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],"red","grey"),pch=16,cex=.4)
+pairs(~S_0+I_0+Vnwp_0+Vap_0+Anwp_0+Aap_0,data=data,col=ifelse((data$loglik) > quantile(data$loglik,.9)[[1]],"red","grey"),pch=16,cex=.4)
 
 #### two parameter plot
 ## grey is LHS, red is initial run, blue is final run. Size proportional to likelihood
@@ -57,11 +57,11 @@ data.dir<-"~/Documents/GitHub/pertussis.epi/cluster/data"
 setwd("~/Documents/GitHub/pertussis.epi/cluster/code")
 source("prep.data.covar.R")
 setwd("~/Documents/GitHub/pertussis.epi/cluster/code/models")
-source("build.pomp.none.equal.R")
+source("build.pomp.Vn.equal.Vwp.R")
 
 setwd("~/Documents/GitHub/pertussis.epi/results/final.results")
 fit.params<-read.csv(paste0("final.sweep.",job.name,".csv"))
-params<-fit.params[order(-fit.params$loglik)[1],8:33]
+params<-fit.params[order(-fit.params$loglik)[1],8:27]
 
 simulate(m1,params=params,nsim=8,format="d",include.data=TRUE,verbose=T)->out
 

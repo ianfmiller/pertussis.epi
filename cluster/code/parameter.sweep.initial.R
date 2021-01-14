@@ -5,8 +5,9 @@ set.seed(13548996)
 ### set job iteration ###
 
 n.initial<-2000 #number of LHS samples
-n.final<-250 #n best samples to analyze further
-jobs.per.node<-25 #number of LHS samples to analyze in the same script
+n.mid<-200  #number of LHS samples
+n.final<-20 #number of LHS samples
+jobs.per.node<-20 #number of LHS samples to analyze in the same script
 start.job.index<-1 #first index parameter set to analyze
 
 ### set region, smoothing window, vaccine era, model
@@ -33,6 +34,7 @@ source("lhs.gen.R")
 setwd(code.dir)
 source("prep.data.covar.R")
 setwd(code.dir)
+setwd("models")
 if(model=="test.stoch") {source("build.pomp.test.stoch.R")}
 if(model=="all.equal") {source("build.pomp.all.equal.R")}
 if(model=="all.equal.booster") {source("build.pomp.all.equal.booster.R")}
@@ -55,13 +57,13 @@ foreach(i=0:(jobs.per.node-1), .inorder=F, .combine = "rbind") %dorng% {
   
   job.index<-start.job.index+i
   params<-params.mat[job.index,]
-  m2<-mif2(m1,Nmif=350,params=params,rw.sd=rw.sd,cooling.fraction.50=0.5, Np=250,cooling.type="hyperbolic")
+  m2<-mif2(m1,Nmif=100,params=params,rw.sd=rw.sd,cooling.fraction.50=0.4, Np=1000,cooling.type="geometric")
   print(paste0("i = ",i+start.job.index," mif complete"))
   ll <- replicate(n=10,logLik(pfilter(m2,Np=1000)))
   print(paste("finished i =",i+start.job.index))
   m2<-list(mif=m2,ll=logmeanexp(ll,se=TRUE))
   setwd(out.dir) 
-  saveRDS(m2,file=paste(model,loc,subset.data,smooth.interval,paste("iter",job.index,sep=""),"mif.RDS",sep="."))
+  saveRDS(m2,file=paste(model,loc,subset.data,smooth.interval,paste("iter",job.index,sep=""),"initial.mif.RDS",sep="."))
   data.frame("loc"=loc,"model"=model,"subset.data"=subset.data,"smooth.interval"=smooth.interval,"lhs.row"=i+start.job.index,"loglik"=m2$ll[[1]],"se"=m2$ll[[2]],rbind(coef(m2$mif)))
 }->mf.out
 

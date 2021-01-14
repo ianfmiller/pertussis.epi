@@ -149,10 +149,10 @@ est.pars<-c("Vwp_wane_rate","Vap_wane_rate","Vn_wane_rate","rec_rate","beta0","s
             "Vwp_fail_rate","Vwp_symptom_rate","Vap_fail_rate","Vap_symptom_rate","Vn_fail_rate","Vn_symptom_rate",
             "beta_mod_Awp","beta_mod_Aap","beta_mod_An","rho","lag","beta1","S_0","I_0","Vwp_0","Vap_0","Vn_0","Awp_0","Aap_0","An_0")
 
-rw.sd=rw.sd(Vwp_wane_rate=0.02,Vap_wane_rate=0.02,Vn_wane_rate=0.02,rec_rate=0.02,beta0=0.02,
-            sigmaSE=0.02,Vwp_fail_rate=0.02,Vwp_symptom_rate=0.02,Vap_fail_rate=0.02,Vap_symptom_rate=0.02,
-            Vn_fail_rate=0.02,Vn_symptom_rate=0.02,beta_mod_Awp=0.02,beta_mod_Aap=0.02,beta_mod_An=0.02,
-            rho=0.02,lag=0.02,beta1=0.02,S_0=0.02,I_0=0.02,Vwp_0=0.02,Vap_0=0.02,Vn_0=0.02,Awp_0=0.02,Aap_0=0.02,An_0=0.02)
+rw.sd=rw.sd(Vwp_wane_rate=0.02,Vap_wane_rate=ifelse(time >= 9862,0.02,0),Vn_wane_rate=0.02,rec_rate=0.02,beta0=0.02,
+            sigmaSE=0.02,Vwp_fail_rate=0.02,Vwp_symptom_rate=0.02,Vap_fail_rate=ifelse(time >= 9862,0.02,0),Vap_symptom_rate=ifelse(time >= 9862,0.02,0),
+            Vn_fail_rate=0.02,Vn_symptom_rate=0.02,beta_mod_Awp=0.02,beta_mod_Aap=ifelse(time >= 9862,0.02,0),beta_mod_An=0.02,
+            rho=0.02,lag=0.02,beta1=ivp(0.02),S_0=ivp(0.02),I_0=ivp(0.02),Vwp_0=ivp(0.02),Vap_0=ivp(0.02),Vn_0=ivp(0.02),Awp_0=ivp(0.02),Aap_0=ivp(0.02),An_0=ivp(0.02))
 
 init.values.mat<-data.frame(S_0=LHS[,"S_0"],I_0=LHS[,"I_0"],Vwp_0=LHS[,"Vwp_0"],Vap_0=LHS[,"Vap_0"],Vn_0=LHS[,"Vn_0"],Awp_0=LHS[,"Awp_0"],Aap_0=LHS[,"Aap_0"],An_0=LHS[,"An_0"])
 
