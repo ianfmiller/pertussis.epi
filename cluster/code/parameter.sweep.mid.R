@@ -34,17 +34,7 @@ setwd(code.dir)
 source("prep.data.covar.R")
 setwd(code.dir)
 setwd("models")
-if(model=="test.stoch") {source("build.pomp.test.stoch.R")}
-if(model=="all.equal") {source("build.pomp.all.equal.R")}
-if(model=="all.equal.booster") {source("build.pomp.all.equal.booster.R")}
-if(model=="Vn.equal.Vwp") {source("build.pomp.Vn.equal.Vwp.R")}
-if(model=="Vn.equal.Vwp.booster") {source("build.pomp.Vn.equal.Vwp.booster.R")}
-if(model=="Vn.equal.Vap") {source("build.pomp.Vn.equal.Vap.R")}
-if(model=="Vn.equal.Vap.booster") {source("build.pomp.Vn.equal.Vap.booster.R")}
-if(model=="Vwp.equal.Vap") {source("build.pomp.Vwp.equal.Vap.R")}
-if(model=="Vwp.equal.Vap.booster") {source("build.pomp.Vwp.equal.Vap.booster.R")}
-if(model=="none.equal") {source("build.pomp.none.equal.R")}
-if(model=="none.equal.booster") {source("build.pomp.none.equal.booster.R")}
+if(model=="none.equal.dev") {source("build.pomp.none.equal.dev.R")}
 
 ### load start points from initial sweep
 
