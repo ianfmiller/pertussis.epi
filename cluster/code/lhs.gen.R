@@ -8,7 +8,7 @@ if (file.exists(LHS.file.name))
 {
   n.points<-n.initial
   
-  if (model=="none.equal")
+  if (model=="waning.diff.protection.diff.symptoms.diff.transmission.diff")
   {
     lower.param.bounds<-c(
       Vn_wane_rate = 1/(365*1),

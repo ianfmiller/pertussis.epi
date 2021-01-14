@@ -1,5 +1,5 @@
 loc<-"US" 
-model<-"none.equal"
+model<-"waning.diff.protection.diff.symptoms.diff.transmission.diff"
 subset.data<-"all" 
 smooth.interval<-"two.weeks" 
 job.name<-paste0(loc,".",model,".",subset.data,".",smooth.interval)
