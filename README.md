@@ -16,4 +16,3 @@
 ### Assume:
 #### 1) Any infection (asymptomatic or symptomatic) results in natural immunity
 #### 2) All symptomatic individuals are equally infectious
-#### 3) All infections in non-immune individuals are symptomatic
