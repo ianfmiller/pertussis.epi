@@ -57,7 +57,7 @@ data.dir<-"~/Documents/GitHub/pertussis.epi/cluster/data"
 setwd("~/Documents/GitHub/pertussis.epi/cluster/code")
 source("prep.data.covar.R")
 setwd("~/Documents/GitHub/pertussis.epi/cluster/code/models")
-source("build.pomp.none.equal.R")
+source("build.pomp.waning.diff.protection.diff.symptoms.diff.transmission.diff.R")
 
 setwd("~/Documents/GitHub/pertussis.epi/results/final.results")
 fit.params<-read.csv(paste0("final.sweep.",job.name,".csv"))
