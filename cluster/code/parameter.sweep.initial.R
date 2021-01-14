@@ -35,7 +35,7 @@ setwd(code.dir)
 source("prep.data.covar.R")
 setwd(code.dir)
 setwd("models")
-if(model=="none.equal.dev") {source("build.pomp.waning.diff.protection.diff.symptoms.diff.transmission.diff.R")}
+if(model=="waning.diff.protection.diff.symptoms.diff.transmission.diff") {source("build.pomp.waning.diff.protection.diff.symptoms.diff.transmission.diff.R")}
 
 
 ### analyze LHS sample ###
