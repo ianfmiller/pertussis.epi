@@ -1,8 +1,8 @@
 loc<-"US" 
 subset.data<-"all" 
 smooth.interval<-"two.weeks" 
-models<-c("none.equal","all.equal")
-n.params<-c(26,14)
+models<-c("none.equal","all.equal","Vn.equal.Vwp")
+n.params<-c(26,14,20)
 
 logliks<-c()
 for(model in models)
