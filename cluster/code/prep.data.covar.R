@@ -159,7 +159,7 @@ years<-as.Date(paste(demog$Year,"-01-01",sep="")) #convert year to date object
 years<-as.numeric(years) #convert years to numeric
 
 ### prep covaraiates ###
-
+### output units are in the form of deaths per year -> divide by 365.25 in model to get death rate per day
 birth.rate<-predict(smooth.spline(years,demog$Births/demog$Pop,df=length(years)),x=dates)$y
 
 death.rate<-predict(smooth.spline(years,demog$Deaths/demog$Pop,df=length(years)),x=dates)$y
