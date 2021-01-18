@@ -1,5 +1,6 @@
 #### final LHS parameter sweep--stochastic model ###
 library(doRNG)
+library(doParallel)
 set.seed(13548996)
 ### set job iteration ###
 
