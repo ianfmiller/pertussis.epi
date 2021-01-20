@@ -55,7 +55,7 @@ if (file.exists(LHS.file.name))
       Vap_fail_rate=1,
       Vap_symptom_rate=1, 
       naive_symptom_rate=1,
-      beta0 = 1e-3, 
+      beta0 = 1, 
       beta1 = 1,
       beta_mod_An = 1, 
       beta_mod_Awp = 1, 
