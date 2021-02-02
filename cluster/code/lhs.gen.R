@@ -62,7 +62,7 @@ if (file.exists(LHS.file.name))
       beta_mod_Aap = 1, 
       beta_mod_A = 1,
       rho=1,
-      sigmaSE=10,
+      sigmaSE=0.25,
       lag=1,
       S_0=1,
       E_0=1,
