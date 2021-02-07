@@ -56,10 +56,10 @@ foreach(i=0:(jobs.per.node-1), .inorder=F, .combine = "rbind") %dorng% {
   setwd(out.dir)
   m1<-readRDS(paste0(model,".",loc,".",subset.data,".",smooth.interval,".iter",lhs.samp,".initial.mif.RDS"))
   m1<-m1$mif
-  continue(m1,Nmif=25)->m2
-  print(paste0("i = ",i+start.job.index," mif complete"))
+  continue(m1,Nmif=15)->m2
+  print(paste0("i = ",i+start.job.index," mif complete; time = ",Sys.time()))
   ll <- replicate(n=10,logLik(pfilter(m2,Np=10000)))
-  print(paste("finished i =",i+start.job.index))
+  print(paste("finished i =",i+start.job.index,"; time = ",Sys.time()))
   m2<-list(mif=m2,ll=logmeanexp(ll,se=TRUE))
   setwd(out.dir)
   saveRDS(m2,file=paste(model,loc,subset.data,smooth.interval,paste("iter",lhs.samp,sep=""),"mid.mif.RDS",sep="."))
