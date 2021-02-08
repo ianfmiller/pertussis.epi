@@ -44,7 +44,7 @@ ncores=detectCores()
 registerDoParallel(cores=ncores)
 
 foreach(i=0:(jobs.per.node-1), .inorder=F, .combine = "rbind") %dorng% {
-  print(paste("starting i =",i+start.job.index))
+  print(paste("starting i =",i+start.job.index,"; time = ",Sys.time()))
   
   job.index<-start.job.index+i
   params<-params.mat[job.index,]
