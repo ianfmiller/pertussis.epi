@@ -89,7 +89,7 @@ if(!file.exists(paste0(job.name,".mid.q")))
       paste0("#SBATCH --array=1-",n.mid/jobs.per.node),
       "#SBATCH --sockets-per-node=1",
       "#SBATCH --cores-per-socket=5",
-      "#SBATCH -t 0-36:00:00",
+      "#SBATCH -t 0-48:00:00",
       "#SBATCH --mail-type=END",
       "#SBATCH --mail-user=ifmiller@princeton.edu",
       "",
