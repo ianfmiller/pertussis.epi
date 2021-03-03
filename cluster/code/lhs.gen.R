@@ -34,20 +34,17 @@ if (file.exists(LHS.file.name))
       E_0=0.0,
       En_0=0.0,
       Ewp_0=0.0,
-      Eap_0=0.0,
       I_0=0.0,
       A_0=0.0,
       An_0=0.0,
       Awp_0=0.0,
-      Aap_0=0.0,
       Vn_0=0.0,
-      Vwp_0=0.0,
-      Vap_0=0.0)
+      Vwp_0=0.0)
     
     upper.param.bounds<-c(
-      Vn_wane_rate = 1/(365*100),
-      Vwp_wane_rate = 1/(365*100), 
-      Vap_wane_rate = 1/(365*100),
+      Vn_wane_rate = 1/(365*500),
+      Vwp_wane_rate = 1/(365*500), 
+      Vap_wane_rate = 1/(365*500),
       Vn_fail_rate=1, 
       Vn_symptom_rate=1,
       Vwp_fail_rate=1, 
@@ -65,18 +62,15 @@ if (file.exists(LHS.file.name))
       sigmaSE=0.25,
       lag=1,
       S_0=1,
-      E_0=1,
-      En_0=1,
-      Ewp_0=1,
-      Eap_0=1,
-      I_0=1,
-      A_0=1,
-      An_0=1,
-      Awp_0=1,
-      Aap_0=1,
+      E_0=.1,
+      En_0=.1,
+      Ewp_0=.1,
+      I_0=.1,
+      A_0=.1,
+      An_0=.1,
+      Awp_0=.1,
       Vn_0=1,
-      Vwp_0=1,
-      Vap_0=1)
+      Vwp_0=1)
     
     LHS<-sobolDesign(lower=lower.param.bounds,upper=upper.param.bounds,nseq=n.points)
     saveRDS(LHS,file=LHS.file.name)

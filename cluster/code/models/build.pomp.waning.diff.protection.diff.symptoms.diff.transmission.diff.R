@@ -7,8 +7,8 @@ library(doParallel)
 statenames <- c("S","E","En","Ewp","Eap","I","A","An","Awp","Aap","Vn","Vwp","Vap","W","C")
 t0 <- min(dates)
 
-init.names<-c("S_0","E_0","En_0","Ewp_0","Eap_0","I_0","A_0","An_0","Awp_0","Aap_0","Vn_0","Vwp_0","Vap_0")
-param.names<-c("Vn_wane_rate","Vwp_wane_rate","Vap_wane_rate","Vn_fail_rate","Vn_symptom_rate","Vwp_fail_rate","Vwp_symptom_rate","Vap_fail_rate","Vap_symptom_rate","naive_symptom_rate","beta0","beta1","beta_mod_An","beta_mod_Awp","beta_mod_Aap","beta_mod_A","rho","sigmaSE","lag",init.names)
+init.param.names<-c("S_0","E_0","En_0","Ewp_0","I_0","A_0","An_0","Awp_0","Vn_0","Vwp_0")
+param.names<-c("Vn_wane_rate","Vwp_wane_rate","Vap_wane_rate","Vn_fail_rate","Vn_symptom_rate","Vwp_fail_rate","Vwp_symptom_rate","Vap_fail_rate","Vap_symptom_rate","naive_symptom_rate","beta0","beta1","beta_mod_An","beta_mod_Awp","beta_mod_Aap","beta_mod_A","rho","sigmaSE","lag",init.param.names)
 
 rproc <- Csnippet("
                   double N, beta, latent_trans_rate, rec_rate, foi, dw, nbirths, Sbirths, Vwp_births, Vap_births;
@@ -132,20 +132,20 @@ rproc <- Csnippet("
                   ")
 
 rinit <- Csnippet("
-                  double m = pop/(S_0+E_0+En_0+Ewp_0+Eap_0+I_0+A_0+An_0+Awp_0+Aap_0+Vn_0+Vwp_0+Vap_0);
+                  double m = pop/(S_0+E_0+En_0+Ewp_0+I_0+A_0+An_0+Awp_0+Vn_0+Vwp_0);
                   S = nearbyint(m*S_0);
                   E = nearbyint(m*E_0);
                   En = nearbyint(En_0);
                   Ewp = nearbyint(m*Ewp_0);
-                  Eap = nearbyint(m*Eap_0);
+                  Eap = 0.0;
                   I = nearbyint(m*I_0);
                   A = nearbyint(m*A_0);
                   An = nearbyint(m*An_0);
                   Awp = nearbyint(m*Awp_0);
-                  Aap = nearbyint(m*Aap_0);
+                  Aap = 0.0;
                   Vn = nearbyint(m*Vn_0);
                   Vwp = nearbyint(m*Vwp_0);
-                  Vap = nearbyint(m*Vap_0);
+                  Vap = 0.0;
                   W = 0.0;
                   C = 0.0;
                   ")
@@ -168,7 +168,7 @@ rmeas <- Csnippet("
 partrans=parameter_trans(
   log=c("Vn_wane_rate","Vwp_wane_rate","Vap_wane_rate","beta0","sigmaSE"),
   logit=c("naive_symptom_rate","Vn_fail_rate","Vn_symptom_rate","Vwp_fail_rate","Vwp_symptom_rate","Vap_fail_rate","Vap_symptom_rate","beta_mod_A","beta_mod_An","beta_mod_Awp","beta_mod_Aap","rho","lag","beta1"),
-  barycentric=c("S_0","E_0","En_0","Ewp_0","Eap_0","I_0","Vn_0","Vwp_0","Vap_0","A","An_0","Awp_0","Aap_0")
+  barycentric=c("S_0","E_0","En_0","Ewp_0","I_0","Vn_0","Vwp_0","A","An_0","Awp_0")
 )
 
 
@@ -189,16 +189,16 @@ pomp(data=data,
 
 est.pars<-c("Vn_wane_rate","Vwp_wane_rate","Vap_wane_rate","Vn_fail_rate","Vn_symptom_rate","Vwp_fail_rate","Vwp_symptom_rate","Vap_fail_rate","Vap_symptom_rate","naive_symptom_rate",
             "beta0","beta1","beta_mod_An","beta_mod_Awp","beta_mod_Aap","beta_mod_A","rho","sigmaSE","lag",
-            "S_0","E_0","En_0","Ewp_0","Eap_0","I_0","Vn_0","Vwp_0","Vap_0","A","An_0","Awp_0","Aap_0")
+            "S_0","E_0","En_0","Ewp_0","I_0","Vn_0","Vwp_0","A","An_0","Awp_0")
 
 rw.sd=rw.sd(Vn_wane_rate=0.01,Vwp_wane_rate=0.01,Vap_wane_rate=ifelse(time >= 9862,0.01,0),Vn_fail_rate=0.01,Vn_symptom_rate=0.01,Vwp_fail_rate=0.01,Vwp_symptom_rate=0.01,Vap_fail_rate=ifelse(time >= 9862,0.01,0),Vap_symptom_rate=ifelse(time >= 9862,0.01,0),naive_symptom_rate=0.01,
             beta0=0.01,beta1=0.01,beta_mod_An=0.01,beta_mod_Awp=0.01,beta_mod_Aap=ifelse(time >= 9862,0.01,0),beta_mod_A=0.01,rho=0.01,sigmaSE=0.01,lag=0.01,
-            S_0=ivp(0.01),E_0=ivp(0.01),En_0=ivp(0.01),Ewp_0=ivp(0.01),Eap_0=ivp(0.01),I_0=ivp(0.01),A_0=ivp(0.01),An_0=ivp(0.01),Awp_0=ivp(0.01),Aap_0=ivp(0.01),Vn_0=ivp(0.01),Vwp_0=ivp(0.01),Vap_0=ivp(0.01))
+            S_0=ivp(0.01),E_0=ivp(0.01),En_0=ivp(0.01),Ewp_0=ivp(0.01),I_0=ivp(0.01),A_0=ivp(0.01),An_0=ivp(0.01),Awp_0=ivp(0.01),Vn_0=ivp(0.01),Vwp_0=ivp(0.01))
 
 init.values.mat<-data.frame(S_0=LHS[,"S_0"],
-                            E_0=LHS[,"E_0"],En_0=LHS[,"En_0"],Ewp_0=LHS[,"Ewp_0"],Eap_0=LHS[,"Eap_0"],
-                            I_0=LHS[,"I_0"],A_0=LHS[,"A_0"],An_0=LHS[,"An_0"],Awp_0=LHS[,"Awp_0"],Aap_0=LHS[,"Aap_0"],
-                            Vn_0=LHS[,"Vn_0"],Vwp_0=LHS[,"Vwp_0"],Vap_0=LHS[,"Vap_0"])
+                            E_0=LHS[,"E_0"],En_0=LHS[,"En_0"],Ewp_0=LHS[,"Ewp_0"],
+                            I_0=LHS[,"I_0"],A_0=LHS[,"A_0"],An_0=LHS[,"An_0"],Awp_0=LHS[,"Awp_0"],
+                            Vn_0=LHS[,"Vn_0"],Vwp_0=LHS[,"Vwp_0"])
 
 params.mat<-cbind(
   data.frame(
