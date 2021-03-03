@@ -196,15 +196,9 @@ rw.sd=rw.sd(Vn_wane_rate=0.01,Vwp_wane_rate=0.01,Vap_wane_rate=ifelse(time >= 98
             S_0=ivp(0.01),E_0=ivp(0.01),En_0=ivp(0.01),Ewp_0=ivp(0.01),I_0=ivp(0.01),A_0=ivp(0.01),An_0=ivp(0.01),Awp_0=ivp(0.01),Vn_0=ivp(0.01),Vwp_0=ivp(0.01))
 
 init.values.mat<-data.frame(S_0=LHS[,"S_0"],
-<<<<<<< HEAD
                             E_0=LHS[,"E_0"],En_0=LHS[,"En_0"],Ewp_0=LHS[,"Ewp_0"],
                             I_0=LHS[,"I_0"],A_0=LHS[,"A_0"],An_0=LHS[,"An_0"],Awp_0=LHS[,"Awp_0"],
                             Vn_0=LHS[,"Vn_0"],Vwp_0=LHS[,"Vwp_0"])
-=======
-                            E_0=LHS[,"E_0"],En_0=LHS[,"En_0"],Ewp_0=LHS[,"Ewp_0"],Eap_0=0,
-                            I_0=LHS[,"I_0"],A_0=LHS[,"A_0"],An_0=LHS[,"An_0"],Awp_0=LHS[,"Awp_0"],Aap_0=0,
-                            Vn_0=LHS[,"Vn_0"],Vwp_0=LHS[,"Vwp_0"],Vap_0=0)
->>>>>>> e8aaa50b7befbbb6371eb61c9a3fabf564fba94c
 
 params.mat<-cbind(
   data.frame(
