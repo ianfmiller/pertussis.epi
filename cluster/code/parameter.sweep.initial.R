@@ -36,7 +36,25 @@ source("prep.data.covar.R")
 setwd(code.dir)
 setwd("models")
 if(model=="waning.diff.protection.diff.symptoms.diff.transmission.diff") {source("build.pomp.waning.diff.protection.diff.symptoms.diff.transmission.diff.R")}
+
 if(model=="waning.same.protection.diff.symptoms.diff.transmission.diff") {source("build.pomp.waning.same.protection.diff.symptoms.diff.transmission.diff.R")}
+if(model=="waning.diff.protection.same.symptoms.diff.transmission.diff") {source("build.pomp.waning.diff.protection.same.symptoms.diff.transmission.diff.R")}
+if(model=="waning.diff.protection.diff.symptoms.same.transmission.diff") {source("build.pomp.waning.diff.protection.diff.symptoms.same.transmission.diff.R")}
+if(model=="waning.diff.protection.diff.symptoms.diff.transmission.same") {source("build.pomp.waning.diff.protection.diff.symptoms.diff.transmission.same.R")}
+
+if(model=="waning.same.protection.same.symptoms.diff.transmission.diff") {source("build.pomp.waning.same.protection.same.symptoms.diff.transmission.diff.R")}
+if(model=="waning.same.protection.diff.symptoms.same.transmission.diff") {source("build.pomp.waning.same.protection.diff.symptoms.same.transmission.diff.R")}
+if(model=="waning.same.protection.diff.symptoms.diff.transmission.same") {source("build.pomp.waning.same.protection.diff.symptoms.diff.transmission.same.R")}
+if(model=="waning.diff.protection.same.symptoms.same.transmission.diff") {source("build.pomp.waning.diff.protection.same.symptoms.same.transmission.diff.R")}
+if(model=="waning.diff.protection.same.symptoms.diff.transmission.same") {source("build.pomp.waning.diff.protection.same.symptoms.diff.transmission.same.R")}
+if(model=="waning.diff.protection.diff.symptoms.same.transmission.same") {source("build.pomp.waning.diff.protection.diff.symptoms.same.transmission.same.R")}
+
+if(model=="waning.same.protection.same.symptoms.same.transmission.diff") {source("build.pomp.waning.same.protection.same.symptoms.same.transmission.diff.R")}
+if(model=="waning.same.protection.same.symptoms.diff.transmission.same") {source("build.pomp.waning.same.protection.same.symptoms.diff.transmission.same.R")}
+if(model=="waning.same.protection.diff.symptoms.same.transmission.same") {source("build.pomp.waning.same.protection.diff.symptoms.same.transmission.same.R")}
+if(model=="waning.diff.protection.same.symptoms.same.transmission.same") {source("build.pomp.waning.diff.protection.same.symptoms.same.transmission.same.R")}
+
+if(model=="waning.same.protection.same.symptoms.same.transmission.same") {source("build.pomp.waning.same.protection.same.symptoms.same.transmission.same.R")}
 
 
 ### analyze LHS sample ###
