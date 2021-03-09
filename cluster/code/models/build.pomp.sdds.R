@@ -102,9 +102,9 @@ rproc <- Csnippet("
                   reulermultinom(2, A, &rate[16], dt, &trans[16]);
                   reulermultinom(2, An, &rate[18], dt, &trans[18]);
                   reulermultinom(2, Av, &rate[20], dt, &trans[20]);
-                  reulermultinom(3, Vn, &rate[24], dt, &trans[22]);
-                  reulermultinom(3, Vwp, &rate[27], dt, &trans[25]);
-                  reulermultinom(3, Vap, &rate[30], dt, &trans[28]);
+                  reulermultinom(3, Vn, &rate[22], dt, &trans[22]);
+                  reulermultinom(3, Vwp, &rate[25], dt, &trans[25]);
+                  reulermultinom(3, Vap, &rate[28], dt, &trans[28]);
                   
                   S += Sbirths + trans[23] + trans[26] + trans[29]- trans[0] - trans[1];
                   E += trans[0] - trans[2] - trans[3] - trans[4];
