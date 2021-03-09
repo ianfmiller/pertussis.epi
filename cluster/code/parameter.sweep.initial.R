@@ -40,7 +40,7 @@ if(model=="waning.diff.protection.diff.symptoms.diff.transmission.diff") {source
 if(model=="waning.same.protection.diff.symptoms.diff.transmission.diff") {source("build.pomp.sddd.R")}
 if(model=="waning.diff.protection.same.symptoms.diff.transmission.diff") {source("build.pomp.dsdd.R")}
 if(model=="waning.diff.protection.diff.symptoms.same.transmission.diff") {source("build.pomp.ddsd.R")}
-if(model=="waning.diff.protection.diff.symptoms.diff.transmission.same") {source("build.ddds.R")}
+if(model=="waning.diff.protection.diff.symptoms.diff.transmission.same") {source("build.pomp.ddds.R")}
 
 if(model=="waning.same.protection.same.symptoms.diff.transmission.diff") {source("build.pomp.ssdd.R")}
 if(model=="waning.same.protection.diff.symptoms.same.transmission.diff") {source("build.pomp.sdsd.R")}
