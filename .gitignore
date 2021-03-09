@@ -2,4 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
-.DS_Store
+*.DS_Store
+results/.DS_Store
+**/.DS_Store
+pertussis.epi.Rproj
