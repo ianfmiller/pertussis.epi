@@ -113,7 +113,7 @@ rproc <- Csnippet("
                   Vap += Vap_births - trans[25] - trans[26] - trans[27];
 
                   W += (dw - dt)/sigmaSE;  // standardized i.i.d. white noise
-                  C += trans[3] + trans[6] + trans[9]]; // true incidence
+                  C += trans[3] + trans[6] + trans[9]; // true incidence
                   
                   if(I<0) {I=0;}
                   ")
