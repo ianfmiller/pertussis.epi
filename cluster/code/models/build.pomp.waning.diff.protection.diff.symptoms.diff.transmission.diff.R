@@ -206,6 +206,5 @@ params.mat<-cbind(
     Vwp_fail_rate=LHS[,"Vwp_fail_rate"],Vwp_symptom_rate=LHS[,"Vwp_symptom_rate"],Vap_fail_rate=LHS[,"Vap_fail_rate"], Vap_symptom_rate=LHS[,"Vap_symptom_rate"],naive_symptom_rate=LHS[,"naive_symptom_rate"],
     beta0 = LHS[,"beta0"], beta1 = LHS[,"beta1"],beta_mod_An = LHS[,"beta_mod_An"],beta_mod_Awp = LHS[,"beta_mod_Awp"], beta_mod_Aap = LHS[,"beta_mod_Aap"],beta_mod_A=LHS[,"beta_mod_A"],rho=LHS[,"rho"],
     sigmaSE=LHS[,"sigmaSE"],lag=LHS[,"lag"]
-    ),
+  ),
   init.values.mat)
-
