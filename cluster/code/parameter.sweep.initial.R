@@ -49,10 +49,10 @@ if(model=="waning.diff.protection.same.symptoms.same.transmission.diff") {source
 if(model=="waning.diff.protection.same.symptoms.diff.transmission.same") {source("build.pomp.dsds.R")}
 if(model=="waning.diff.protection.diff.symptoms.same.transmission.same") {source("build.pomp.ddss.R")}
 
-if(model=="waning.same.protection.same.symptoms.same.transmission.diff") {source("build.pomp.waning.sssd.R")}
-if(model=="waning.same.protection.same.symptoms.diff.transmission.same") {source("build.pomp.waning.ssds.R")}
-if(model=="waning.same.protection.diff.symptoms.same.transmission.same") {source("build.pomp.waning.sdss.R")}
-if(model=="waning.diff.protection.same.symptoms.same.transmission.same") {source("build.pomp.waning.dsss.R")}
+if(model=="waning.same.protection.same.symptoms.same.transmission.diff") {source("build.pomp.sssd.R")}
+if(model=="waning.same.protection.same.symptoms.diff.transmission.same") {source("build.pomp.ssds.R")}
+if(model=="waning.same.protection.diff.symptoms.same.transmission.same") {source("build.pomp.sdss.R")}
+if(model=="waning.diff.protection.same.symptoms.same.transmission.same") {source("build.pomp.dsss.R")}
 
 if(model=="waning.same.protection.same.symptoms.same.transmission.same") {source("build.pomp.ssss.R")}
 
