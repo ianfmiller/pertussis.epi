@@ -1,8 +1,24 @@
 loc<-"US" 
 subset.data<-"all" 
 smooth.interval<-"two.weeks" 
-models<-c("none.equal","all.equal","Vn.equal.Vwp")
-n.params<-c(26,14,20)
+models<-c("waning.diff.protection.diff.symptoms.diff.transmission.diff",
+          "waning.same.protection.diff.symptoms.diff.transmission.diff",
+          "waning.diff.protection.same.symptoms.diff.transmission.diff",
+          "waning.diff.protection.diff.symptoms.same.transmission.diff",
+          "waning.diff.protection.diff.symptoms.diff.transmission.same",
+          "waning.same.protection.same.symptoms.diff.transmission.diff",
+          "waning.same.protection.diff.symptoms.same.transmission.diff",
+          "waning.same.protection.diff.symptoms.diff.transmission.same",
+          "waning.diff.protection.same.symptoms.same.transmission.diff",
+          "waning.diff.protection.same.symptoms.diff.transmission.same",
+          "waning.diff.protection.diff.symptoms.same.transmission.same",
+          "waning.same.protection.same.symptoms.same.transmission.diff",
+          "waning.same.protection.same.symptoms.diff.transmission.same",
+          "waning.same.protection.diff.symptoms.same.transmission.same",
+          "waning.diff.protection.same.symptoms.same.transmission.same",
+          "waning.same.protection.same.symptoms.same.transmission.same")
+
+n.params<-c(29,28,28,28,28,27,27,27,27,27,27,26,26,26,26,25)
 
 logliks<-c()
 for(model in models)

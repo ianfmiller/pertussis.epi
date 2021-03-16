@@ -35,17 +35,27 @@ setwd(code.dir)
 source("prep.data.covar.R")
 setwd(code.dir)
 setwd("models")
-if(model=="test.stoch") {source("build.pomp.test.stoch.R")}
-if(model=="all.equal") {source("build.pomp.all.equal.R")}
-if(model=="all.equal.booster") {source("build.pomp.all.equal.booster.R")}
-if(model=="Vn.equal.Vwp") {source("build.pomp.Vn.equal.Vwp.R")}
-if(model=="Vn.equal.Vwp.booster") {source("build.pomp.Vn.equal.Vwp.booster.R")}
-if(model=="Vn.equal.Vap") {source("build.pomp.Vn.equal.Vap.R")}
-if(model=="Vn.equal.Vap.booster") {source("build.pomp.Vn.equal.Vap.booster.R")}
-if(model=="Vwp.equal.Vap") {source("build.pomp.Vwp.equal.Vap.R")}
-if(model=="Vwp.equal.Vap.booster") {source("build.pomp.Vwp.equal.Vap.booster.R")}
-if(model=="none.equal") {source("build.pomp.none.equal.R")}
-if(model=="none.equal.booster") {source("build.pomp.none.equal.booster.R")}
+if(model=="waning.diff.protection.diff.symptoms.diff.transmission.diff") {source("build.pomp.dddd.R")}
+
+if(model=="waning.same.protection.diff.symptoms.diff.transmission.diff") {source("build.pomp.sddd.R")}
+if(model=="waning.diff.protection.same.symptoms.diff.transmission.diff") {source("build.pomp.dsdd.R")}
+if(model=="waning.diff.protection.diff.symptoms.same.transmission.diff") {source("build.pomp.ddsd.R")}
+if(model=="waning.diff.protection.diff.symptoms.diff.transmission.same") {source("build.pomp.ddds.R")}
+
+if(model=="waning.same.protection.same.symptoms.diff.transmission.diff") {source("build.pomp.ssdd.R")}
+if(model=="waning.same.protection.diff.symptoms.same.transmission.diff") {source("build.pomp.sdsd.R")}
+if(model=="waning.same.protection.diff.symptoms.diff.transmission.same") {source("build.pomp.sdds.R")}
+if(model=="waning.diff.protection.same.symptoms.same.transmission.diff") {source("build.pomp.dssd.R")}
+if(model=="waning.diff.protection.same.symptoms.diff.transmission.same") {source("build.pomp.dsds.R")}
+if(model=="waning.diff.protection.diff.symptoms.same.transmission.same") {source("build.pomp.ddss.R")}
+
+if(model=="waning.same.protection.same.symptoms.same.transmission.diff") {source("build.pomp.sssd.R")}
+if(model=="waning.same.protection.same.symptoms.diff.transmission.same") {source("build.pomp.ssds.R")}
+if(model=="waning.same.protection.diff.symptoms.same.transmission.same") {source("build.pomp.sdss.R")}
+if(model=="waning.diff.protection.same.symptoms.same.transmission.same") {source("build.pomp.dsss.R")}
+
+if(model=="waning.same.protection.same.symptoms.same.transmission.same") {source("build.pomp.ssss.R")}
+
 
 ### analyze LHS sample ###
 
@@ -53,14 +63,14 @@ ncores=detectCores()
 registerDoParallel(cores=ncores)
 
 foreach(i=0:(jobs.per.node-1), .inorder=F, .combine = "rbind") %dorng% {
-  print(paste("starting i =",i+start.job.index))
+  print(paste("starting i =",i+start.job.index,"; time = ",Sys.time()))
   
   job.index<-start.job.index+i
   params<-params.mat[job.index,]
-  m2<-mif2(m1,Nmif=100,params=params,rw.sd=rw.sd,cooling.fraction.50=0.4, Np=1000,cooling.type="geometric")
-  print(paste0("i = ",i+start.job.index," mif complete"))
-  ll <- replicate(n=10,logLik(pfilter(m2,Np=1000)))
-  print(paste("finished i =",i+start.job.index))
+  m2<-mif2(m1,Nmif=25,params=params,rw.sd=rw.sd,cooling.fraction.50=0.25, Np=1000,cooling.type="geometric")
+  print(paste0("i = ",i+start.job.index," mif complete; time = ",Sys.time()))
+  ll <- replicate(n=10,logLik(pfilter(m2,Np=5000)))
+  print(paste("finished i =",i+start.job.index,"; time = ",Sys.time()))
   m2<-list(mif=m2,ll=logmeanexp(ll,se=TRUE))
   setwd(out.dir) 
   saveRDS(m2,file=paste(model,loc,subset.data,smooth.interval,paste("iter",job.index,sep=""),"initial.mif.RDS",sep="."))

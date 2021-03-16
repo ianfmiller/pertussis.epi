@@ -4,7 +4,23 @@ setwd("~/pertussis/code")
 analysis.setup.lines<-readLines("setup.mif.files.R")
 
 locs<-c("US")
-models<-c("all.equal","none.equal","Vn.equal.Vwp")
+models<-c(
+          #"waning.diff.protection.diff.symptoms.diff.transmission.diff",
+          "waning.same.protection.diff.symptoms.diff.transmission.diff",
+          "waning.diff.protection.same.symptoms.diff.transmission.diff",
+          "waning.diff.protection.diff.symptoms.same.transmission.diff",
+          "waning.diff.protection.diff.symptoms.diff.transmission.same",
+          "waning.same.protection.same.symptoms.diff.transmission.diff",
+          "waning.same.protection.diff.symptoms.same.transmission.diff",
+          "waning.same.protection.diff.symptoms.diff.transmission.same",
+          "waning.diff.protection.same.symptoms.same.transmission.diff",
+          "waning.diff.protection.same.symptoms.diff.transmission.same",
+          "waning.diff.protection.diff.symptoms.same.transmission.same",
+          "waning.same.protection.same.symptoms.same.transmission.diff",
+          "waning.same.protection.same.symptoms.diff.transmission.same",
+          "waning.same.protection.diff.symptoms.same.transmission.same",
+          "waning.diff.protection.same.symptoms.same.transmission.same",
+          "waning.same.protection.same.symptoms.same.transmission.same")
 subset.data<-"all" #vaccine era to subset. options are "all" "wP" and "aP"
 smooth.interval<-"two.weeks"  #time period over which to smooth data, options are "two.weeks" "four.weeks" and "none"
 for(model in models)
