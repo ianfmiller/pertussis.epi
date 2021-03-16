@@ -1,6 +1,41 @@
 ### setup mif runs  on cluster ###
 library(pomp)
 
+models<-c(
+  "waning.diff.protection.diff.symptoms.diff.transmission.diff",
+  "waning.same.protection.diff.symptoms.diff.transmission.diff",
+  "waning.diff.protection.same.symptoms.diff.transmission.diff",
+  "waning.diff.protection.diff.symptoms.same.transmission.diff",
+  "waning.diff.protection.diff.symptoms.diff.transmission.same",
+  "waning.same.protection.same.symptoms.diff.transmission.diff",
+  "waning.same.protection.diff.symptoms.same.transmission.diff",
+  "waning.same.protection.diff.symptoms.diff.transmission.same",
+  "waning.diff.protection.same.symptoms.same.transmission.diff",
+  "waning.diff.protection.same.symptoms.diff.transmission.same",
+  "waning.diff.protection.diff.symptoms.same.transmission.same",
+  "waning.same.protection.same.symptoms.same.transmission.diff",
+  "waning.same.protection.same.symptoms.diff.transmission.same",
+  "waning.same.protection.diff.symptoms.same.transmission.same",
+  "waning.diff.protection.same.symptoms.same.transmission.same",
+  "waning.same.protection.same.symptoms.same.transmission.same")
+
+model.abbrevs<-c("dddd",
+               "sddd",
+               "dsdd",
+               "ddsd",
+               "ddds",
+               "ssdd",
+               "sdsd",
+               "sdds",
+               "dssd",
+               "dsds",
+               "ddss",
+               "sssd",
+               "ssds",
+               "sdss",
+               "dsss",
+               "ssss")
+
 loc<-"US"
 model<-"test.stoch"
 subset.data<-"wP"
@@ -13,7 +48,8 @@ jobs.per.node<-20 #number of LHS samples to analyze in the same script
 
 ### set directories for current analysis ###
 
-job.name<-paste0(loc,".",model,".",subset.data,".",smooth.interval)
+job.name<-paste0(loc,".",model.abbrevs[which(models==model)],".",subset.data,".",smooth.interval)
+
 base.dir<-paste0("~/pertussis/",job.name)
 
 ### set directories for reading files to be re-written and run###
