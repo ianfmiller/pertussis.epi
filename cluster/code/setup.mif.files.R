@@ -47,8 +47,8 @@ n.final<-20 #number of LHS samples
 jobs.per.node<-20 #number of LHS samples to analyze in the same script
 
 ### set directories for current analysis ###
-
-job.name<-paste0(loc,".",model.abbrevs[which(models==model)],".",subset.data,".",smooth.interval)
+job.name<-paste0(loc,".",model,".",subset.data,".",smooth.interval)
+job.name.abrev<-paste0(loc,".",model.abbrevs[which(models==model)],".",subset.data,".",smooth.interval)
 
 base.dir<-paste0("~/pertussis/",job.name)
 
@@ -65,7 +65,7 @@ source("lhs.gen.R")
 
 setwd(base.dir)
 
-if(!file.exists(paste0(job.name,".initial.q")))
+if(!file.exists(paste0(job.name.abrev,".initial.q")))
 {
   writeLines(
     c(
@@ -73,7 +73,7 @@ if(!file.exists(paste0(job.name,".initial.q")))
       "#",
       "#SBATCH -o init.pertussis.out",
       "#SBATCH -e init.pertussis.err",
-      paste0("#SBATCH -J ",job.name,".init"), 
+      paste0("#SBATCH -J ",job.name.abrev,".init"), 
       paste0("#SBATCH --array=1-",n.initial/jobs.per.node),
       "#SBATCH --sockets-per-node=1",
       "#SBATCH --cores-per-socket=5",
@@ -84,13 +84,13 @@ if(!file.exists(paste0(job.name,".initial.q")))
       paste0("cd ",batch.dir,"/dir.i$SLURM_ARRAY_TASK_ID"),
       "srun R CMD BATCH parameter.sweep.initial.R"
     ),
-    con=paste0(job.name,".initial.q")
+    con=paste0(job.name.abrev,".initial.q")
   )
 }
 
 setwd(base.dir)
 
-if(!file.exists(paste0(job.name,".compile.initial.q")))
+if(!file.exists(paste0(job.name.abrev,".compile.initial.q")))
 {
   writeLines(
     c(
@@ -98,7 +98,7 @@ if(!file.exists(paste0(job.name,".compile.initial.q")))
       "#",
       "#SBATCH -o comp.init.pertussis.out",
       "#SBATCH -e comp.init.pertussis.err",
-      paste0("#SBATCH -J ",job.name,".comp.init"), 
+      paste0("#SBATCH -J ",job.name.abrev,".comp.init"), 
       "#SBATCH --array=1",
       "#SBATCH --sockets-per-node=1",
       "#SBATCH --cores-per-socket=1",
@@ -109,11 +109,11 @@ if(!file.exists(paste0(job.name,".compile.initial.q")))
       paste0("cd ",base.dir),
       "srun R CMD BATCH compile.initial.output.R"
     ),
-    con=paste0(job.name,".comp.initial.q")
+    con=paste0(job.name.abrev,".comp.initial.q")
   )
 }
 
-if(!file.exists(paste0(job.name,".mid.q")))
+if(!file.exists(paste0(job.name.abrev,".mid.q")))
 {
   writeLines(
     c(
@@ -121,7 +121,7 @@ if(!file.exists(paste0(job.name,".mid.q")))
       "#",
       "#SBATCH -o mid.pertussis.out",
       "#SBATCH -e mid.pertussis.err",
-      paste0("#SBATCH -J ",job.name,".mid"), 
+      paste0("#SBATCH -J ",job.name.abrev,".mid"), 
       paste0("#SBATCH --array=1-",n.mid/jobs.per.node),
       "#SBATCH --sockets-per-node=1",
       "#SBATCH --cores-per-socket=5",
@@ -132,11 +132,11 @@ if(!file.exists(paste0(job.name,".mid.q")))
       paste0("cd ",batch.dir,"/dir.m$SLURM_ARRAY_TASK_ID"),
       "srun R CMD BATCH parameter.sweep.mid.R"
     ),
-    con=paste0(job.name,".mid.q")
+    con=paste0(job.name.abrev,".mid.q")
   )
 }
 
-if(!file.exists(paste0(job.name,".compile.mid.q")))
+if(!file.exists(paste0(job.name.abrev,".compile.mid.q")))
 {
   writeLines(
     c(
@@ -144,7 +144,7 @@ if(!file.exists(paste0(job.name,".compile.mid.q")))
       "#",
       "#SBATCH -o comp.mid.pertussis.out",
       "#SBATCH -e comp.mid.pertussis.err",
-      paste0("#SBATCH -J ",job.name,".comp.mid"), 
+      paste0("#SBATCH -J ",job.name.abrev,".comp.mid"), 
       "#SBATCH --array=1",
       "#SBATCH --sockets-per-node=1",
       "#SBATCH --cores-per-socket=1",
@@ -155,11 +155,11 @@ if(!file.exists(paste0(job.name,".compile.mid.q")))
       paste0("cd ",base.dir),
       "srun R CMD BATCH compile.mid.output.R"
     ),
-    con=paste0(job.name,".comp.mid.q")
+    con=paste0(job.name.abrev,".comp.mid.q")
   )
 }
 
-if(!file.exists(paste0(job.name,".final.q")))
+if(!file.exists(paste0(job.name.abrev,".final.q")))
 {
   writeLines(
     c(
@@ -167,7 +167,7 @@ if(!file.exists(paste0(job.name,".final.q")))
       "#",
       "#SBATCH -o fin.pertussis.out",
       "#SBATCH -e fin.pertussis.err",
-      paste0("#SBATCH -J ",job.name,".final"), 
+      paste0("#SBATCH -J ",job.name.abrev,".final"), 
       paste0("#SBATCH --array=1-",n.final/jobs.per.node),
       "#SBATCH --sockets-per-node=1",
       "#SBATCH --cores-per-socket=5",
@@ -178,11 +178,11 @@ if(!file.exists(paste0(job.name,".final.q")))
       paste0("cd ",batch.dir,"/dir.f$SLURM_ARRAY_TASK_ID"),
       "srun R CMD BATCH parameter.sweep.final.R"
     ),
-    con=paste0(job.name,".final.q")
+    con=paste0(job.name.abrev,".final.q")
   )
 }
 
-if(!file.exists(paste0(job.name,".compile.final.q")))
+if(!file.exists(paste0(job.name.abrev,".compile.final.q")))
 {
   writeLines(
     c(
@@ -190,7 +190,7 @@ if(!file.exists(paste0(job.name,".compile.final.q")))
       "#",
       "#SBATCH -o comp.final.pertussis.out",
       "#SBATCH -e comp.final.pertussis.err",
-      paste0("#SBATCH -J ",job.name,".comp.fin"), 
+      paste0("#SBATCH -J ",job.name.abrev,".comp.fin"), 
       "#SBATCH --array=1",
       "#SBATCH --sockets-per-node=1",
       "#SBATCH --cores-per-socket=1",
@@ -201,7 +201,7 @@ if(!file.exists(paste0(job.name,".compile.final.q")))
       paste0("cd ",base.dir),
       "srun R CMD BATCH compile.final.output.R"
     ),
-    con=paste0(job.name,".comp.final.q")
+    con=paste0(job.name.abrev,".comp.final.q")
   )
 }
 
