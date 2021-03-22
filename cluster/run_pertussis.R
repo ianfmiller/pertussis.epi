@@ -57,7 +57,6 @@ for(loc in locs) #add nested loops if needed for other models, subsets, etc.
     writeLines(analysis.setup.lines,con="setup.mif.files.R")
     source("setup.mif.files.R")
     setwd(paste0("~/pertussis/",job.name))
-    
     cmd<-paste0("jid1=$(sbatch ",paste0(job.name.abrev,".initial.q);"),
                 " jid2=$(sbatch --dependency=afterany:${jid1##* } ",paste0(job.name.abrev,".comp.initial.q);"),
                 " jid3=$(sbatch --dependency=afterany:${jid2##* } ",paste0(job.name.abrev,".mid.q);"),
