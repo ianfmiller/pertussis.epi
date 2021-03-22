@@ -8,7 +8,7 @@ statenames <- c("S","E","En","Ewp","Eap","I","A","An","Awp","Aap","Vn","Vwp","Va
 t0 <- min(dates)
 
 init.param.names<-c("S_0","E_0","En_0","Ewp_0","I_0","A_0","An_0","Awp_0","Vn_0","Vwp_0")
-param.names<-c("Vn_wane_rate","Vwp_wane_rate","Vap_wane_rate","Vn_fail_rate","Vn_symptom_rate","Vwp_fail_rate","V_symptom_rate","Vap_fail_rate","naive_symptom_rate","beta0","beta1","beta_mod_An","beta_mod_Awp","beta_mod_Aap","beta_mod_A","rho","sigmaSE","lag",init.param.names)
+param.names<-c("Vn_wane_rate","Vwp_wane_rate","Vap_wane_rate","Vn_fail_rate","Vn_symptom_mod","Vwp_fail_rate","V_symptom_mod","Vap_fail_rate","naive_symptom_rate","beta0","beta1","beta_mod_An","beta_mod_Awp","beta_mod_Aap","beta_mod_A","rho","sigmaSE","lag",init.param.names)
 
 rproc <- Csnippet("
                   double N, beta, latent_trans_rate, rec_rate, foi, dw, nbirths, Sbirths, Vwp_births, Vap_births;
@@ -39,18 +39,18 @@ rproc <- Csnippet("
                   rate[4] = death_rate/365.25; // natural mortality
                   
                   // En
-                  rate[5] = (1-Vn_symptom_rate)*latent_trans_rate; // rate of transition from En to An
-                  rate[6] = Vn_symptom_rate*latent_trans_rate; // rate of transition from En to I
+                  rate[5] = (1-pow(naive_symptom_rate,1+Vn_symptom_mod))*latent_trans_rate; // rate of transition from En to An
+                  rate[6] = pow(naive_symptom_rate,1+Vn_symptom_mod)*latent_trans_rate; // rate of transition from En to I
                   rate[7] = death_rate/365.25; // natural mortality
                   
                   // Ewp
-                  rate[8] = (1-V_symptom_rate)*latent_trans_rate; // rate of transition from Ewp to Awp
-                  rate[9] = V_symptom_rate*latent_trans_rate; // rate of transition from Ewp to I
+                  rate[8] = (1-pow(naive_symptom_rate,1+V_symptom_mod))*latent_trans_rate; // rate of transition from Ewp to Awp
+                  rate[9] = pow(naive_symptom_rate,1+V_symptom_mod)*latent_trans_rate; // rate of transition from Ewp to I
                   rate[10] = death_rate/365.25; // natural mortality
                   
                   // Eap
-                  rate[11] = (1-V_symptom_rate)*latent_trans_rate; // rate of transition from Ewp to Aap
-                  rate[12] = V_symptom_rate*latent_trans_rate; // rate of transition from Ewp to I
+                  rate[11] = (1-pow(naive_symptom_rate,1+V_symptom_mod))*latent_trans_rate; // rate of transition from Ewp to Aap
+                  rate[12] = pow(naive_symptom_rate,1+V_symptom_mod)*latent_trans_rate; // rate of transition from Ewp to I
                   rate[13] = death_rate/365.25; // natural mortality
                   
                   // I
@@ -166,8 +166,8 @@ rmeas <- Csnippet("
 
 
 partrans=parameter_trans(
-  log=c("Vn_wane_rate","Vwp_wane_rate","Vap_wane_rate","beta0","sigmaSE"),
-  logit=c("naive_symptom_rate","Vn_fail_rate","Vn_symptom_rate","Vwp_fail_rate","V_symptom_rate","Vap_fail_rate","beta_mod_A","beta_mod_An","beta_mod_Awp","beta_mod_Aap","rho","lag","beta1"),
+  log=c("Vn_wane_rate","Vwp_wane_rate","Vap_wane_rate","beta0","sigmaSE","Vn_symptom_mod","V_symptom_mod"),
+  logit=c("naive_symptom_rate","Vn_fail_rate","Vwp_fail_rate","Vap_fail_rate","beta_mod_A","beta_mod_An","beta_mod_Awp","beta_mod_Aap","rho","lag","beta1"),
   barycentric=c("S_0","E_0","En_0","Ewp_0","I_0","Vn_0","Vwp_0","A","An_0","Awp_0")
 )
 
@@ -187,11 +187,11 @@ pomp(data=data,
      verbose = T
 ) -> m1
 
-est.pars<-c("Vn_wane_rate","Vwp_wane_rate","Vap_wane_rate","Vn_fail_rate","Vn_symptom_rate","Vwp_fail_rate","V_symptom_rate","Vap_fail_rate","naive_symptom_rate",
+est.pars<-c("Vn_wane_rate","Vwp_wane_rate","Vap_wane_rate","Vn_fail_rate","Vn_symptom_mod","Vwp_fail_rate","V_symptom_mod","Vap_fail_rate","naive_symptom_rate",
             "beta0","beta1","beta_mod_An","beta_mod_Awp","beta_mod_Aap","beta_mod_A","rho","sigmaSE","lag",
             "S_0","E_0","En_0","Ewp_0","I_0","Vn_0","Vwp_0","A","An_0","Awp_0")
 
-rw.sd=rw.sd(Vn_wane_rate=0.01,Vwp_wane_rate=0.01,Vap_wane_rate=ifelse(time >= 9862,0.01,0),Vn_fail_rate=0.01,Vn_symptom_rate=0.01,Vwp_fail_rate=0.01,V_symptom_rate=0.01,Vap_fail_rate=ifelse(time >= 9862,0.01,0),naive_symptom_rate=0.01,
+rw.sd=rw.sd(Vn_wane_rate=0.01,Vwp_wane_rate=0.01,Vap_wane_rate=ifelse(time >= 9862,0.01,0),Vn_fail_rate=0.01,Vn_symptom_mod=0.01,Vwp_fail_rate=0.01,V_symptom_mod=0.01,Vap_fail_rate=ifelse(time >= 9862,0.01,0),naive_symptom_rate=0.01,
             beta0=0.01,beta1=0.01,beta_mod_An=0.01,beta_mod_Awp=0.01,beta_mod_Aap=ifelse(time >= 9862,0.01,0),beta_mod_A=0.01,rho=0.01,sigmaSE=0.01,lag=0.01,
             S_0=ivp(0.01),E_0=ivp(0.01),En_0=ivp(0.01),Ewp_0=ivp(0.01),I_0=ivp(0.01),A_0=ivp(0.01),An_0=ivp(0.01),Awp_0=ivp(0.01),Vn_0=ivp(0.01),Vwp_0=ivp(0.01))
 
@@ -202,8 +202,8 @@ init.values.mat<-data.frame(S_0=LHS[,"S_0"],
 
 params.mat<-cbind(
   data.frame(
-    Vn_wane_rate=LHS[,"Vn_wane_rate"],Vwp_wane_rate = LHS[,"Vwp_wane_rate"],Vap_wane_rate = LHS[,"Vap_wane_rate"], Vn_fail_rate=LHS[,"Vn_fail_rate"],Vn_symptom_rate=LHS[,"Vn_symptom_rate"],
-    Vwp_fail_rate=LHS[,"Vwp_fail_rate"],V_symptom_rate=LHS[,"V_symptom_rate"],Vap_fail_rate=LHS[,"Vap_fail_rate"],naive_symptom_rate=LHS[,"naive_symptom_rate"],
+    Vn_wane_rate=LHS[,"Vn_wane_rate"],Vwp_wane_rate = LHS[,"Vwp_wane_rate"],Vap_wane_rate = LHS[,"Vap_wane_rate"], Vn_fail_rate=LHS[,"Vn_fail_rate"],Vn_symptom_mod=LHS[,"Vn_symptom_mod"],
+    Vwp_fail_rate=LHS[,"Vwp_fail_rate"],V_symptom_mod=LHS[,"V_symptom_mod"],Vap_fail_rate=LHS[,"Vap_fail_rate"],naive_symptom_rate=LHS[,"naive_symptom_rate"],
     beta0 = LHS[,"beta0"], beta1 = LHS[,"beta1"],beta_mod_An = LHS[,"beta_mod_An"],beta_mod_Awp = LHS[,"beta_mod_Awp"], beta_mod_Aap = LHS[,"beta_mod_Aap"],beta_mod_A=LHS[,"beta_mod_A"],rho=LHS[,"rho"],
     sigmaSE=LHS[,"sigmaSE"],lag=LHS[,"lag"]
   ),
