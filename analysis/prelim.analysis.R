@@ -35,7 +35,7 @@ model.files<-c("build.pomp.dddd.R",
                "build.pomp.dsss.R",
                "build.pomp.ssss.R")
 loc<-locs[1]
-model<-models[3]
+model<-models[4]
 subset.data<-"all" 
 smooth.interval<-"two.weeks" 
 job.name<-paste0(loc,".",model,".",subset.data,".",smooth.interval)
