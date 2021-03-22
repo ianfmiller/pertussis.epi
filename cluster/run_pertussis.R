@@ -5,7 +5,7 @@ analysis.setup.lines<-readLines("setup.mif.files.R")
 
 locs<-c("US")
 models<-c(
-          #"waning.diff.protection.diff.symptoms.diff.transmission.diff",
+          "waning.diff.protection.diff.symptoms.diff.transmission.diff",
           "waning.same.protection.diff.symptoms.diff.transmission.diff",
           "waning.diff.protection.same.symptoms.diff.transmission.diff",
           "waning.diff.protection.diff.symptoms.same.transmission.diff",
