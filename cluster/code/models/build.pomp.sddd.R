@@ -168,7 +168,7 @@ rmeas <- Csnippet("
 
 partrans=parameter_trans(
   log=c("Vn_wane_rate","V_wane_rate","beta0","sigmaSE","Vn_symptom_mod","Vwp_symptom_mod","Vap_symptom_mod"),
-  logit=c("naive_symptom_rate","Vn_fail_rate","Vap_fail_rate","beta_mod_A","beta_mod_An","beta_mod_Awp","beta_mod_Aap","rho","lag","beta1"),
+  logit=c("naive_symptom_rate","Vn_fail_rate","Vap_fail_rate","Vwp_fail_rate","beta_mod_A","beta_mod_An","beta_mod_Awp","beta_mod_Aap","rho","lag","beta1"),
   barycentric=c("S_0","E_0","En_0","Ewp_0","I_0","Vn_0","Vwp_0","A","An_0","Awp_0")
 )
 
