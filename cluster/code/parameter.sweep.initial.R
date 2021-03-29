@@ -69,7 +69,10 @@ foreach(i=0:(jobs.per.node-1), .inorder=F, .combine = "rbind") %dorng% {
   params<-params.mat[job.index,]
   m2<-mif2(m1,Nmif=25,params=params,rw.sd=rw.sd,cooling.fraction.50=0.25, Np=1000,cooling.type="geometric")
   print(paste0("i = ",i+start.job.index," mif complete; time = ",Sys.time()))
-  ll <- replicate(n=10,logLik(pfilter(m2,Np=5000)))
+  ### get liklihood with check to kill slow calculation of extremely low liklihood 
+  rm(ll.tmp)
+  ll.tmp <- withTimeout(replicate(n=10,logLik(pfilter(m2,Np=5000))),timeout = 60*60*15)
+  if(exists("ll.tmp")) {ll<-ll.tmp} else {ll<- -888e10}
   print(paste("finished i =",i+start.job.index,"; time = ",Sys.time()))
   m2<-list(mif=m2,ll=logmeanexp(ll,se=TRUE))
   setwd(out.dir) 
