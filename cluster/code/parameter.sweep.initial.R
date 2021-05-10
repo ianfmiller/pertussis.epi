@@ -67,7 +67,8 @@ foreach(i=0:(jobs.per.node-1), .inorder=F, .combine = "rbind") %dorng% {
   print(paste("starting i =",i+start.job.index,"; time = ",Sys.time()))
   job.index<-start.job.index+i
   params<-params.mat[job.index,]
-  m2<-mif2(m1,Nmif=25,params=params,rw.sd=rw.sd,cooling.fraction.50=0.25, Np=1000,cooling.type="geometric")
+  #m2<-mif2(m1,Nmif=25,params=params,rw.sd=rw.sd,cooling.fraction.50=0.25, Np=1000,cooling.type="geometric") # for two.week smooth interval
+  m2<-mif2(m1,Nmif=200,params=params,rw.sd=rw.sd,cooling.fraction.50=0.1, Np=500,cooling.type="geometric") # for four.week smooth interval
   print(paste0("i = ",i+start.job.index," mif complete; time = ",Sys.time()))
   ### get liklihood with check to kill slow calculation of extremely low liklihood 
   ll <- tryCatch(withTimeout(replicate(n=10,logLik(pfilter(m2,Np=5000))),timeout = 60*60*20),error=function(e) {ll.tmp<- rep(-888e10,times=10)})

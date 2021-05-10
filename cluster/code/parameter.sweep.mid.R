@@ -54,7 +54,8 @@ foreach(i=0:(jobs.per.node-1), .inorder=F, .combine = "rbind") %dorng% {
   setwd(out.dir)
   m1<-readRDS(paste0(model,".",loc,".",subset.data,".",smooth.interval,".iter",lhs.samp,".initial.mif.RDS"))
   m1<-m1$mif
-  continue(m1,Nmif=50)->m2
+  #continue(m1,Nmif=50)->m2 # for two.week smooth interval
+  continue(m1,Nmif=200)->m2 # for four.week smooth interval
   print(paste0("i = ",i+start.job.index," mif complete; time = ",Sys.time()))
   ll <- replicate(n=10,logLik(pfilter(m2,Np=5000)))
   print(paste("finished i =",i+start.job.index,"; time = ",Sys.time()))
