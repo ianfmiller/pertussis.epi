@@ -35,9 +35,9 @@ model.files<-c("build.pomp.dddd.R",
                "build.pomp.dsss.R",
                "build.pomp.ssss.R")
 loc<-locs[1]
-model<-models[14]
+model<-models[1]
 subset.data<-"all" 
-smooth.interval<-"two.weeks" 
+smooth.interval<-"four.weeks" 
 job.name<-paste0(loc,".",model,".",subset.data,".",smooth.interval)
 
 # plot LHS
@@ -113,7 +113,7 @@ setwd("~/Documents/GitHub/pertussis.epi/results/final.results")
 fit.params<-read.csv(paste0("final.sweep.",job.name,".csv"))
 initial.condition.cols<-grep("_0",colnames(fit.params))
 param.cols<-seq(1:dim(fit.params)[2])[-c(1:7,initial.condition.cols)]
-params<-fit.params[order(-fit.params$loglik)[4],c(param.cols,initial.condition.cols)]
+params<-fit.params[order(-fit.params$loglik)[1],c(param.cols,initial.condition.cols)]
 
 ## plot individuals simulations
 
@@ -148,9 +148,9 @@ polygon(c(m1@times,rev(m1@times)),c(lower,rev(upper)),col="pink",border = NA)
 points(m1@times,c(m1@data),type="l")
 
 ## visualize individual mif
-i<-395 ### index of mif of interest
-setwd("~/Downloads/results.out.2") ### directory containing mif files
+i<-1025 ### index of mif of interest
+setwd("~/Downloads") ### directory containing mif files
 file.name<-paste0(model,".",loc,".",subset.data,".",smooth.interval,".iter",i,".final.mif.RDS")
 mod<-readRDS(file.name)
-plot(1:length(mod$mif@traces[,"loglik"]),mod$mif@traces[,"beta_mod_An"],type="l")
+plot(1:length(mod$mif@traces[,"loglik"]),mod$mif@traces[,"beta1"],type="l")
 
