@@ -5,41 +5,43 @@ analysis.setup.lines<-readLines("setup.mif.files.R")
 
 locs<-c("US")
 models<-c(
-          "waning.diff.protection.diff.symptoms.diff.transmission.diff",
-          "waning.same.protection.diff.symptoms.diff.transmission.diff",
-          "waning.diff.protection.same.symptoms.diff.transmission.diff",
-          "waning.diff.protection.diff.symptoms.same.transmission.diff",
-          "waning.diff.protection.diff.symptoms.diff.transmission.same",
-          "waning.same.protection.same.symptoms.diff.transmission.diff",
-          "waning.same.protection.diff.symptoms.same.transmission.diff",
-          "waning.same.protection.diff.symptoms.diff.transmission.same",
-          "waning.diff.protection.same.symptoms.same.transmission.diff",
-          "waning.diff.protection.same.symptoms.diff.transmission.same",
-          "waning.diff.protection.diff.symptoms.same.transmission.same",
-          "waning.same.protection.same.symptoms.same.transmission.diff",
-          "waning.same.protection.same.symptoms.diff.transmission.same",
-          "waning.same.protection.diff.symptoms.same.transmission.same",
-          "waning.diff.protection.same.symptoms.same.transmission.same",
-          "waning.same.protection.same.symptoms.same.transmission.same")
+          "waning.diff.protection.diff.symptoms.diff.transmission.diff"
+          #"waning.same.protection.diff.symptoms.diff.transmission.diff",
+          #"waning.diff.protection.same.symptoms.diff.transmission.diff",
+          #"waning.diff.protection.diff.symptoms.same.transmission.diff",
+          #"waning.diff.protection.diff.symptoms.diff.transmission.same",
+          #"waning.same.protection.same.symptoms.diff.transmission.diff",
+          #"waning.same.protection.diff.symptoms.same.transmission.diff",
+          #"waning.same.protection.diff.symptoms.diff.transmission.same",
+          #"waning.diff.protection.same.symptoms.same.transmission.diff",
+          #"waning.diff.protection.same.symptoms.diff.transmission.same",
+          #"waning.diff.protection.diff.symptoms.same.transmission.same",
+          #"waning.same.protection.same.symptoms.same.transmission.diff",
+          #"waning.same.protection.same.symptoms.diff.transmission.same",
+          #"waning.same.protection.diff.symptoms.same.transmission.same",
+          #"waning.diff.protection.same.symptoms.same.transmission.same",
+          #"waning.same.protection.same.symptoms.same.transmission.same")
+)
 
-model.abbrevs<-c("dddd",
-                 "sddd",
-                 "dsdd",
-                 "ddsd",
-                 "ddds",
-                 "ssdd",
-                 "sdsd",
-                 "sdds",
-                 "dssd",
-                 "dsds",
-                 "ddss",
-                 "sssd",
-                 "ssds",
-                 "sdss",
-                 "dsss",
-                 "ssss")
+model.abbrevs<-c("dddd"
+                 #"sddd",
+                 #"dsdd",
+                 #"ddsd",
+                 #"ddds",
+                 #"ssdd",
+                 #"sdsd",
+                 #"sdds",
+                 #"dssd",
+                 #"dsds",
+                 #"ddss",
+                 #"sssd",
+                 #"ssds",
+                 #"sdss",
+                 #"dsss",
+                 #"ssss")
+)
 subset.data<-"all" #vaccine era to subset. options are "all" "wP" and "aP"
-smooth.interval<-"two.weeks"  #time period over which to smooth data, options are "two.weeks" "four.weeks" and "none"
+smooth.interval<-"four.weeks"  #time period over which to smooth data, options are "two.weeks" "four.weeks" and "none"
 for(model in models)
 {
 for(loc in locs) #add nested loops if needed for other models, subsets, etc.
